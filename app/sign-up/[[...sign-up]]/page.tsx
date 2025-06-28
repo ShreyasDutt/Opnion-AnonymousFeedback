@@ -1,6 +1,4 @@
 import { SignUp } from '@clerk/nextjs'
-import Image from 'next/image'
-import Bglogo from '@/public/Bglogo.png';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
