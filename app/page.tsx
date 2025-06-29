@@ -4,10 +4,11 @@ import React from 'react'
 import UserImg from '@/public/userimg.png'
 import { FaDotCircle } from 'react-icons/fa'
 import { Button } from '@/components/ui/button'
-import { ArrowRight, CircleCheck, Laptop, MessageSquareQuote, PenTool, Rocket, Send, Sparkles, User } from 'lucide-react'
+import { ArrowRight, ArrowRightIcon, CircleCheck, Laptop, MessageSquareQuote, PenTool, Rocket, Send, Sparkles, User } from 'lucide-react'
 import { RiOrganizationChart } from 'react-icons/ri'
 import Link from 'next/link'
 import Footer from '@/components/Footer'
+import AutoScrollButton from '@/components/AutoScrollButton'
 
 const page = () => {
   return (
@@ -24,12 +25,12 @@ const page = () => {
             <p className='md:text-left text-center mt-6 text-wrap text-sm md:w-90 md:text-xl lg:w-2xl'>Opinion helps teams, creators, and individuals gather real feedback without fear or filters.</p>
             
               <div className='flex gap-2 mt-5 items-center justify-center'>
-              <Button className='p-5 text-white lg:w-72 '>
+                <Link href='/sign-up'>
+                <Button className='p-5 text-white lg:w-72' effect="expandIcon" icon={ArrowRightIcon} iconPlacement="right">
                 Start for free
               </Button>
-              <Button className='bg-white hover:bg-white border text-black p-5 lg:w-72'>
-                See How it Works
-              </Button>
+                </Link>
+            <AutoScrollButton sectionId='how-it-works'/>
             </div>
 
           </div>
@@ -66,9 +67,9 @@ const page = () => {
 
 <div className='mt-20 px-6'>
   <div className='flex flex-col items-center justify-center max-w-7xl mx-auto'>
-    <p className='font-bold text-4xl md:text-5xl text-center text-gray-900 dark:text-white mb-12'>How it Works</p>
+    <p id='how-it-works' className='font-bold text-4xl md:text-5xl text-center text-gray-900 dark:text-white mb-12'>How it Works</p>
     
-    <div className='grid grid-cols-1 md:grid-cols-4 md:grid-rows-2 gap-6 w-full'>
+    <div  className='grid grid-cols-1 md:grid-cols-4 md:grid-rows-2 gap-6 w-full'>
       <div className='md:col-span-2 md:row-span-2 bg-[#f1f5fe] dark:bg-[#1e293b] p-8 rounded-3xl border dark:border-slate-600 relative overflow-hidden group hover:shadow-2xl transition-all duration-300'>
         <div className='relative z-10'>
           <div className='bg-[#5D2DE6] dark:bg-[#4063ff] p-4 rounded-2xl w-fit mb-6'>

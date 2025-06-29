@@ -24,7 +24,7 @@ const Navbar = () => {
             <SignedOut>
                 <Link href={'/sign-in'} className='font-semibold'>Log in</Link>
               <Link href={'/sign-up'}>
-                <Button className='rounded-sm cursor-pointer'>
+                <Button className='rounded-sm cursor-pointer' effect={'shineHover'}>
                   <p className='text-[16px] text-white'>Try Now</p>
                   <ChevronRight className='size-5 text-white' />
                 </Button>
