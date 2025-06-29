@@ -6,6 +6,7 @@ import Footer from '@/components/Footer'
 import LogoPng from '@/public/Opnion.png'
 import Image from 'next/image'
 import { SpaceDropdown } from '@/components/SpaceDropdown'
+import { AddSpaceDialog } from '@/components/AddSpaceDialog'
 
 
 const page = () => {
@@ -15,7 +16,7 @@ const page = () => {
               { label: 'Conversion Rate', value: '15%', Icon: Percent },
             ]
 
-            const spaces = 1;
+            const spaces = null;
   return (
     <div>
       <Navbar />
@@ -57,10 +58,7 @@ const page = () => {
         <div className="mt-6 pt-6 md:px-10 md:pt-8 lg:px-40">
           <div className="mb-2 flex items-center justify-between">
             <p className="text-3xl font-bold">Spaces</p>
-            {spaces ? <Button className="text-white mt-5 flex py-5 gap-2">
-              <Plus />
-              Create a new space
-            </Button>:""}
+            {spaces ? <AddSpaceDialog/>:""}
           </div>
             
             {spaces ? 
@@ -89,10 +87,7 @@ const page = () => {
             <p className="text-center font-semibold text-gray-500 mt-2">
               Start by creating your first space to collect valuable feedback.
             </p>
-            <Button className="text-white mt-5 flex py-5 gap-2">
-              <Plus />
-              Create a new space
-            </Button>
+                <AddSpaceDialog/>
           </div>}
           
         </div>

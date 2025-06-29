@@ -21,7 +21,7 @@ const page = () => {
             <span className="text-sm font-medium">Real-time Feedback</span>
             </div>
             <p className='font-bold text-5xl text-center md:text-left lg:text-8xl'>Get honest feedback Anonymously.</p>
-            <p className='md:text-left text-center mt-6 text-wrap text-sm md:w-90 md:text-xl lg:w-2xl'>Opnion helps teams, creators, and individuals gather real feedback without fear or filters.</p>
+            <p className='md:text-left text-center mt-6 text-wrap text-sm md:w-90 md:text-xl lg:w-2xl'>Opinion helps teams, creators, and individuals gather real feedback without fear or filters.</p>
             
               <div className='flex gap-2 mt-5 items-center justify-center'>
               <Button className='p-5 text-white lg:w-72 '>

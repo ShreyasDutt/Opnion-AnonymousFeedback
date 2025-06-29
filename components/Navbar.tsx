@@ -16,11 +16,11 @@ const Navbar = () => {
     <div className='flex items-center justify-between py-4 px-3 lg:px-7 lg:py-7 border-b'>
         <Link href={'/'} className='flex items-center'>
           <Image src={LogoPng} height={35} width={35} alt=''/>
-            <p className='font-bold text-4xl'>pnion</p>
+            <p className='font-bold text-4xl'>pinion</p>
         </Link>
 
         <div className='flex items-center gap-4'>
-            
+
             <SignedOut>
                 <Link href={'/sign-in'} className='font-semibold'>Log in</Link>
               <Link href={'/sign-up'}>

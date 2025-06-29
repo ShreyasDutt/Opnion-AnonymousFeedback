@@ -10,7 +10,7 @@ export default function Page() {
         {/* <div className="absolute -bottom-30 -right-15">
           <Image src={Bglogo} height={400} width={400} alt="" className='opacity-40'/>
         </div> */}
-        <div className="absolute top-12 left-30">
+        <div className="absolute top-12 left-30 hidden md:block">
             <Link href={'/'}>
             <Button variant="outline" size="icon">
             <ArrowLeft/>

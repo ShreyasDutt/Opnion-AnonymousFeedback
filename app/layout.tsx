@@ -9,7 +9,7 @@ const manrope = Manrope({ subsets: ['latin'] })
 
 
 export const metadata: Metadata = {
-  title: 'Opnion',
+  title: 'Opinion',
   description: 'Say it. Anonymously.',
 }
 
