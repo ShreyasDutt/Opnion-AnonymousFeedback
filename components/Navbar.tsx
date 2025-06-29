@@ -20,6 +20,7 @@ const Navbar = () => {
         </Link>
 
         <div className='flex items-center gap-4'>
+            
             <SignedOut>
                 <Link href={'/sign-in'} className='font-semibold'>Log in</Link>
               <Link href={'/sign-up'}>

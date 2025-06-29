@@ -3,8 +3,19 @@ import Navbar from '../../components/Navbar'
 import { FolderPlus, MessageSquareQuote, Percent, Plus, Sparkle } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import Footer from '@/components/Footer'
+import LogoPng from '@/public/Opnion.png'
+import Image from 'next/image'
+import { SpaceDropdown } from '@/components/SpaceDropdown'
+
 
 const page = () => {
+  const data = [
+              { label: 'Total Feedbacks', value: '178', Icon: MessageSquareQuote },
+              { label: 'Total Spaces', value: '2', Icon: Sparkle },
+              { label: 'Conversion Rate', value: '15%', Icon: Percent },
+            ]
+
+            const spaces = 1;
   return (
     <div>
       <Navbar />
@@ -25,11 +36,7 @@ const page = () => {
 
           {/* Overview Cards */}
           <div className="flex flex-col lg:flex-row lg:gap-3 lg:justify-around">
-            {[
-              { label: 'Total Feedbacks', value: '178', Icon: MessageSquareQuote },
-              { label: 'Total Spaces', value: '2', Icon: Sparkle },
-              { label: 'Conversion Rate', value: '15%', Icon: Percent },
-            ].map(({ label, value, Icon }, idx) => (
+            {data.map(({ label, value, Icon }, idx) => (
               <div
                 key={idx}
                 className="mt-4 bg-[#f1f5fe] dark:bg-black/30 flex flex-col py-5 px-4 rounded-2xl lg:px-10 lg:w-full border"
@@ -48,12 +55,35 @@ const page = () => {
 
         {/* Spaces */}
         <div className="mt-6 pt-6 md:px-10 md:pt-8 lg:px-40">
-          <div className="mb-2">
+          <div className="mb-2 flex items-center justify-between">
             <p className="text-3xl font-bold">Spaces</p>
+            {spaces ? <Button className="text-white mt-5 flex py-5 gap-2">
+              <Plus />
+              Create a new space
+            </Button>:""}
           </div>
+            
+            {spaces ? 
+              <div className="my-7 grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
+              <div className="col-span-1 w-full flex flex-col justify-between bg-[#f1f5fe] dark:bg-black/30 gap-16 py-5 rounded-2xl border px-6">
+                <div className="flex justify-between gap-10">
+                  <div className="flex items-center">
+                    <Image src={LogoPng} height={35} width={35} alt="" className="mr-3" />
+                    <p className="font-bold text-lg">Space name</p>
+                  </div>
+                  <div>
+                    <SpaceDropdown />
+                  </div>
+                </div>
 
-          {/* Empty State */}
-          <div className="bg-[#f1f5fe] dark:bg-black/30 my-5 flex flex-col items-center justify-center py-5 px-3 md:py-9 rounded-2xl border">
+                <div className="flex items-center justify-between text-gray-400 font-medium px-1">
+                  <p>Views: 100</p>
+                  <p>Feedbacks: 10</p>
+                </div>
+              </div>              
+            </div>
+            :
+            <div className="bg-[#f1f5fe] dark:bg-black/30 my-5 flex flex-col items-center justify-center py-5 px-3 md:py-9 rounded-2xl border">
             <FolderPlus className="size-18 stroke-1 mb-3" />
             <p className="text-lg font-bold">No Spaces yet</p>
             <p className="text-center font-semibold text-gray-500 mt-2">
@@ -63,7 +93,8 @@ const page = () => {
               <Plus />
               Create a new space
             </Button>
-          </div>
+          </div>}
+          
         </div>
       </div>
       <Footer/>

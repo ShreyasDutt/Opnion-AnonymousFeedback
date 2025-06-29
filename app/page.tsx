@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button'
 import { ArrowRight, CircleCheck, Laptop, MessageSquareQuote, PenTool, Rocket, Send, Sparkles, User } from 'lucide-react'
 import { RiOrganizationChart } from 'react-icons/ri'
 import Link from 'next/link'
+import Footer from '@/components/Footer'
 
 const page = () => {
   return (
@@ -39,9 +40,9 @@ const page = () => {
               <div className='flex items-center gap-2'>
                 <Image src={UserImg} height={100} width={100} alt='Image' className='rounded-full'/>
                 <div className='flex flex-col gap-4'>
-                  <div className='bg-white dark:bg-slate-700 animate-pulse w-42 h-5 rounded-full md:w-60 lg:w-86'></div>
-                  <div className='bg-white dark:bg-slate-700 w-32 h-5 rounded-full animate-pulse md:w-42 lg:w-70'></div>
-                  <div className='bg-white dark:bg-slate-700 w-40 h-5 rounded-full animate-pulse md:w-54 lg:w-82'></div>
+                  <div className='bg-white dark:bg-slate-700 animate-pulse w-42 h-5 rounded-full md:w-50 lg:w-66'></div>
+                  <div className='bg-white dark:bg-slate-700 w-32 h-5 rounded-full animate-pulse md:w-40 lg:w-52'></div>
+                  <div className='bg-white dark:bg-slate-700 w-40 h-5 rounded-full animate-pulse md:w-48 lg:w-60'></div>
                 </div>
               </div>
 
@@ -124,7 +125,7 @@ const page = () => {
   <div className='flex flex-col items-center justify-center max-w-7xl mx-auto'>
     <p className='font-bold text-4xl md:text-5xl text-center text-gray-900 dark:text-white mb-12'>Use Cases</p>
     
-    <div className='grid grid-cols-1 md:grid-cols-4 md:grid-rows-2 gap-6 w-full'>
+    <div className='grid grid-cols-1 md:grid-cols-4 md:grid-rows-2 gap-6 w-full mb-6'>
       <div className='md:col-span-2 md:row-span-2 bg-[#f1f5fe] dark:bg-[#1e293b] p-8 rounded-3xl border dark:border-slate-600 relative overflow-hidden group hover:shadow-2xl transition-all duration-300'>
         <div className='relative z-10'>
           <div className='bg-[#5D2DE6] dark:bg-[#4063ff] p-4 rounded-2xl w-fit mb-6'>
@@ -177,18 +178,18 @@ const page = () => {
 
 
 
-   <div className='my-8 bg-[#5D2DE6] dark:bg-[#4063ff] p-7 rounded-2xl'>
+   <div className='my-8 lg:h-44 bg-[#5D2DE6] dark:bg-[#4063ff] p-7 rounded-2xl lg:flex lg:items-center lg:justify-center'>
         <div className='flex flex-col lg:flex-row items-center gap-5 justify-center'>
-          <p className='font-bold text-white text-3xl'>Ready to hear the truth?</p>
+          <p className='font-bold text-white text-2xl md:text-4xl lg:text-5xl'>Ready to hear the truth?</p>
           <Link href={'/sign-up'}>
-          <Button className='bg-white text-black hover:bg-white'>Get Anonymous Feedback<ArrowRight/></Button>
+          <Button className='bg-white text-black hover:bg-white lg:py-7'>Get Anonymous Feedback<ArrowRight/></Button>
           </Link>
         </div>
 
       </div>
-</div>
+  </div>
 
-     
+     <Footer/>
 
     </div>
   )
