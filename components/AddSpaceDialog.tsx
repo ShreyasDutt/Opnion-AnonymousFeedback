@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Eye, LucideCirclePlus, Plus, Trash2 } from "lucide-react"
+import { Eye, Plus } from "lucide-react"
 import { MarkdownTextarea } from "./MarkdownTextarea"
 
 export function AddSpaceDialog() {

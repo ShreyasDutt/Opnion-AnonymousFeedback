@@ -1,7 +1,6 @@
 import React from 'react'
 import Navbar from '../../components/Navbar'
-import { FolderPlus, MessageSquareQuote, Percent, Plus, Sparkle } from 'lucide-react'
-import { Button } from '@/components/ui/button'
+import { FolderPlus, MessageSquareQuote, Percent, Sparkle } from 'lucide-react'
 import Footer from '@/components/Footer'
 import LogoPng from '@/public/Opnion.png'
 import Image from 'next/image'
