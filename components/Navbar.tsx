@@ -13,7 +13,7 @@ import LogoPng from '@/public/Opnion.png'
 
 const Navbar = () => {
   return (
-    <div className='flex items-center justify-between py-4 px-3 lg:px-7 lg:py-7'>
+    <div className='flex items-center justify-between py-4 px-3 lg:px-7 lg:py-7 border-b'>
         <Link href={'/'} className='flex items-center'>
           <Image src={LogoPng} height={35} width={35} alt=''/>
             <p className='font-bold text-4xl'>pnion</p>

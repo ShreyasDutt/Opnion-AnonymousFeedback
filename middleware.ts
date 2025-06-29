@@ -6,7 +6,7 @@ export default clerkMiddleware(async (auth, req) => {
     const { userId } = await auth();
     
     if (userId && req.nextUrl.pathname ==='/') {
-    return Response.redirect(new URL('/home', req.url));
+    return Response.redirect(new URL('/dashboard', req.url));
     }
 
   if (!isPublicRoute(req)) {
