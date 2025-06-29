@@ -25,7 +25,7 @@ export default function RootLayout({
         baseTheme: dark,
       }}      
       >
-        <body className={`${manrope.className} antialiased`}>
+        <body className={`${manrope.className} antialiased scroll-smooth`}>
           <ThemeProvider
             attribute="class"
             defaultTheme="system"

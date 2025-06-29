@@ -39,7 +39,7 @@ const page = () => {
             {data.map(({ label, value, Icon }, idx) => (
               <div
                 key={idx}
-                className="mt-4 bg-[#f1f5fe] dark:bg-black/30 flex flex-col py-5 px-4 rounded-2xl lg:px-10 lg:w-full border"
+                className="mt-4 bg-[#f1f5fe] dark:bg-black/30 flex flex-col py-5 px-4 rounded-2xl lg:w-full border"
               >
                 <div className="flex justify-between items-center px-2">
                   <p className="text-xl font-bold">{label}</p>

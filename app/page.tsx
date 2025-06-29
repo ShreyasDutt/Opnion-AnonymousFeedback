@@ -13,7 +13,7 @@ const page = () => {
   return (
     <div>
         <Navbar/>
-        <div className='flex flex-col md:flex-row p-7 lg:p-20 items-center lg:justify-around select-none bg-[#f1f5fe] dark:bg-transparent'>
+        <div className='flex flex-col md:flex-row p-7 lg:p-20 items-center lg:justify-around bg-[#f1f5fe] dark:bg-transparent'>
 
           <div className='flex flex-col items-center justify-center md:items-baseline md:justify-start lg:w-2xl'>
             <div className="inline-flex items-center space-x-2 bg-[#4063ff]/20 px-4 py-2 rounded-full border border-[#4063ff]/30 mb-3">
@@ -35,31 +35,30 @@ const page = () => {
           </div>
 
 
-          <div className='bg-[#c8dcfd] dark:bg-[#1e293b] mt-7 lg:mt-0 p-5 w-full lg:w-1/3 lg:box-content py-8 lg:py-10 rounded-lg border dark:border-slate-600'>
-            <div className='flex flex-col'>
-              <div className='flex items-center gap-2'>
-                <Image src={UserImg} height={100} width={100} alt='Image' className='rounded-full'/>
-                <div className='flex flex-col gap-4'>
-                  <div className='bg-white dark:bg-slate-700 animate-pulse w-42 h-5 rounded-full md:w-50 lg:w-66'></div>
-                  <div className='bg-white dark:bg-slate-700 w-32 h-5 rounded-full animate-pulse md:w-40 lg:w-52'></div>
-                  <div className='bg-white dark:bg-slate-700 w-40 h-5 rounded-full animate-pulse md:w-48 lg:w-60'></div>
+        <div className='bg-[#c8dcfd] dark:bg-[#1e293b] mt-7 lg:mt-0 p-5 w-full lg:w-1/3 lg:box-content py-8 lg:py-10 rounded-lg border dark:border-slate-600'>
+          <div className='flex flex-col'>
+                <div className='flex items-center gap-4'>
+                  <Image src={UserImg} height={100} width={100} alt='User image' className='rounded-full' />
+                  <div className='flex flex-col'>
+                    <p className='text-lg font-semibold text-gray-800 dark:text-gray-100'>Alex Carter</p>
+                    <p className='text-sm text-gray-500 dark:text-gray-300 italic'>"What did you think of my presentation?"</p>
+                  </div>
                 </div>
-              </div>
 
-              <div className='mt-7 flex flex-col gap-3 font-semibold text-sm lg:text-[16px]'>
-                <div className='bg-white dark:bg-slate-900 flex items-center text-black dark:text-white p-4 rounded-lg gap-2'>
-                  <FaDotCircle className='text-green-600' />
-                  <p>Good Job on the presentation!</p>
-                </div>
-                <div className='bg-white dark:bg-slate-900 flex items-center text-black dark:text-white p-4 rounded-lg text-wrap gap-2'>
-                  <FaDotCircle className='text-blue-600'/>
-                  <p>You could improve communication</p>
-                </div>
-                <div className='bg-white dark:bg-slate-900 flex items-center text-black dark:text-white p-4 rounded-lg gap-2'>
-                  <FaDotCircle className='text-blue-400'/>
-                  <p>Consider refining the design</p>
-                </div>
-              </div>
+                  <div className='mt-7 flex flex-col gap-3 font-medium text-sm lg:text-[16px]'>
+                    <div className='bg-white dark:bg-slate-900 flex items-center text-black dark:text-white p-4 rounded-lg gap-2'>
+                      <FaDotCircle className='text-green-600' />
+                      <p>Good Job on the presentation!</p>
+                    </div>
+                    <div className='bg-white dark:bg-slate-900 flex items-center text-black dark:text-white p-4 rounded-lg text-wrap gap-2'>
+                      <FaDotCircle className='text-blue-600'/>
+                      <p>You could improve communication</p>
+                    </div>
+                    <div className='bg-white dark:bg-slate-900 flex items-center text-black dark:text-white p-4 rounded-lg gap-2'>
+                      <FaDotCircle className='text-blue-400'/>
+                      <p>Consider refining the design</p>
+                    </div>
+                  </div>
             </div>
           </div>
         </div>
