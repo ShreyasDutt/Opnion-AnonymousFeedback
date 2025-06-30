@@ -4,11 +4,6 @@ import { Button } from './ui/button';
 
 const Preview = ({Header,CustomColor,SelectedColor,Custommessage,Questions}:{Header:string,CustomColor:string,SelectedColor:string,Custommessage:string,Questions:string[]}) => {
 
-  const backgroundColor =
-    SelectedColor ? `bg-[${SelectedColor}]` :
-    CustomColor ? `bg-[${CustomColor}]` :
-    'bg-primary';
-
   return (
     <div className=" flex items-center justify-center p-4">
       <div className="w-full max-w-md border rounded-2xl p-4 relative">
