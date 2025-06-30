@@ -105,7 +105,7 @@ export function AddSpaceDialog() {
                     setQuestions([...questions, '']);
                   }}
                   variant="link"
-                  className="flex items-center justify-start text-white hover:no-underline hover:text-primary"
+                  className="flex items-center justify-start cursor-pointer text-black dark:text-white hover:no-underline hover:text-primary hover:dark:text-primary"
                 >
                   <p className="flex items-center gap-2">
                     <CirclePlus />Add one (up to 5)

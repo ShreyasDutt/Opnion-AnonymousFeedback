@@ -8,8 +8,8 @@ const Preview = ({Header,SelectedColor,Custommessage,Questions}:{Header:string,C
     <div className=" flex items-center justify-center p-4">
       <div className="w-full max-w-md border rounded-2xl p-4 relative">
         {/* Live preview badge */}
-        <div className="absolute -top-3 left-6 bg-red-600 text-white px-3 py-1 rounded-full text-sm font-medium">
-          Live preview
+        <div className="flex items-center gap-2 absolute -top-3 left-6 bg-red-600 text-white px-3 py-1 rounded-full text-sm font-medium border">
+          Live preview <p className='h-2.5 w-2.5 bg-white rounded-full animate-pulse'></p>
         </div>
         
         {/* Logo */}
@@ -35,7 +35,7 @@ const Preview = ({Header,SelectedColor,Custommessage,Questions}:{Header:string,C
           <h2 className="text-lg font-semibold mb-1 ">
             QUESTIONS
           </h2>
-          <div className="h-1 w-12 bg-blue-600 mb-6"></div>
+          <div className="h-1 w-12 mb-6" style={{backgroundColor:SelectedColor}}></div>
           
           {Questions.length > 0 && (
             <ul className="space-y-3">
