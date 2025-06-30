@@ -2,7 +2,7 @@ import React from 'react';
 import { Pencil } from 'lucide-react';
 import { Button } from './ui/button';
 
-const Preview = ({Header,CustomColor,SelectedColor,Custommessage,Questions}:{Header:string,CustomColor:string,SelectedColor:string,Custommessage:string,Questions:string[]}) => {
+const Preview = ({Header,SelectedColor,Custommessage,Questions}:{Header:string,CustomColor:string,SelectedColor:string,Custommessage:string,Questions:string[]}) => {
 
   return (
     <div className=" flex items-center justify-center p-4">
