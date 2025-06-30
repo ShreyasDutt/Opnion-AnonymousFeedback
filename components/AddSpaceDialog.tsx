@@ -13,7 +13,7 @@ import {
 } from '@/components/ui/dialog';
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Eye, EyeClosed, Plus } from "lucide-react"
+import { CirclePlus, Eye, EyeClosed, Plus, Trash2 } from "lucide-react"
 import { MarkdownTextarea } from "./MarkdownTextarea"
 import Preview from "./Preview";
 import { useState } from "react";
@@ -25,6 +25,10 @@ export function AddSpaceDialog() {
   const [selectedColor, setselectedColor] = useState<string>('');
   const [customColor, setcustomColor] = useState<string>('');
   const [Error, setError] = useState<boolean | null>(null);
+  const [spaceName, setspaceName] = useState<string>('');
+  const [header, setheader] = useState<string>('');
+  const [customMessage, setcustomMessage] = useState<string>('');
+  const [questions, setQuestions] = useState<string[]>(['What do you honestly think about this project?','what can improve?','Anything else to share anonymously?'])
 
   const checkValidHex = (hex:string) =>{
     if (validateHTMLColorHex(hex)) {
@@ -37,9 +41,8 @@ export function AddSpaceDialog() {
       }
   }
 
-
-
   const colors = [{color:'#ff6800',id:1},{color:'#faba28',id:2},{color:'#83ddb8',id:3},{color:'#35cf89',id:4},{color:'#8fd1fd',id:5},{color:'#0293e3',id:6},{color:'#abb9c3',id:7}];
+  
   return (
       <ResponsiveModal>
       <form>
@@ -58,27 +61,69 @@ export function AddSpaceDialog() {
             </ResponsiveModalDescription>
           </ResponsiveModalHeader>
           {showPreview ? 
-          <Preview/> 
+          <Preview Header={header} CustomColor={customColor} SelectedColor={selectedColor} Custommessage={customMessage} Questions={questions}/> 
           :
           <div className="grid gap-4">
             <div className="grid">
               <Label htmlFor="name-1">Space name</Label>
-              <Input id="name-1" name="name" required className="mt-3 mb-1.5 w-80 md:w-full" placeholder="Project Feedback"/>
-              <p className="text-[12.5px]">Public URL is: testimonial.to/</p>
+              <Input id="name-1" name="name" required className="mt-3 mb-1.5 w-80 md:w-full" placeholder="Project Feedback" value={spaceName} onChange={(e)=>{setspaceName(e.target.value)}}/>
+              <p className="text-[12.5px]">Public URL is: send-opinion.vercel.app/{spaceName.toLowerCase().replaceAll(' ','-')}</p>
             </div>
             <div className="grid gap-3">
               <Label htmlFor="username-1">Header title</Label>
-              <Input id="username-1" name="username" required className="w-80 md:w-full" placeholder="Presentation Feedback"/>
+              <Input id="username-1" name="header" required className="w-80 md:w-full" placeholder="Presentation Feedback"
+              value={header} onChange={(e)=>{setheader(e.target.value)}}/>
             </div>
             <div className="grid gap-3">
               <Label htmlFor="username-1">Custom message</Label>
-                <MarkdownTextarea/>
+                <MarkdownTextarea value={customMessage} onChange={(e)=>{setcustomMessage(e.target.value)}} />
             </div>
               <div className="grid gap-3">
               <Label htmlFor="username-1">Questions</Label>
-              <div className="flex items-center gap-2">
-              <Input id="username-1" name="username" required placeholder="Add a question" className="w-80 md:w-full"/>
+              <div className="flex items-center gap-2 flex-col">
+              {questions.map((q, index) => (
+                <Input
+                  key={index}
+                  id={`question-${index + 1}`}
+                  name={`question-${index + 1}`}
+                  required
+                  placeholder="Add a question"
+                  className="w-80 md:w-full"
+                  value={q}
+                  onChange={(e) => {
+                    const updated = [...questions];
+                    updated[index] = e.target.value;
+                    setQuestions(updated);
+                  }}
+                />
+              ))}
               </div>
+              <div className="flex items-center justify-between">
+                  <Button
+                  onClick={() => {
+                    if (questions.length === 5) return;
+                    setQuestions([...questions, '']);
+                  }}
+                  variant="link"
+                  className="flex items-center justify-start text-white hover:no-underline hover:text-primary"
+                >
+                  <p className="flex items-center gap-2">
+                    <CirclePlus />Add one (up to 5)
+                  </p>
+                </Button>
+
+                <Button
+                  variant="outline"
+                  size="icon"
+                  onClick={() => {
+                    if (questions.length === 1) return;
+                    setQuestions(questions.slice(0, -1));
+                  }}
+                >
+                  <Trash2 />
+                </Button>
+              </div>
+              
             </div>
             <div className="flex flex-col gap-3 mb-3">
               <Label htmlFor="username-1">Custom button color</Label>
@@ -96,7 +141,7 @@ export function AddSpaceDialog() {
                       setError(false);
                       setcustomColor('');
                       setselectedColor(color.color);
-                    }} style={{ backgroundColor: color.color }} className={`p-4 md:p-4.5 ${selectedColor===color.color ? 'ring-3 ring-primary':''}`}></Button>
+                    }} style={{ backgroundColor: color.color }} className={`p-4 md:p-5 ${selectedColor===color.color ? 'ring-3 ring-primary':''}`}></Button>
                   )
                 })}
                 </div>
