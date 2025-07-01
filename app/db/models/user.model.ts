@@ -1,15 +1,21 @@
 import mongoose, { Schema, Document, Types } from 'mongoose';
 
 export interface IUser extends Document {
+  clerkId:string;
   username: string;
   email: string;
-  name: string;
+  firstname: string;
   spaces?: Types.ObjectId;
   isAcceptingFeedback: boolean;
 }
 
 // Define the schema
 const userSchema = new Schema<IUser>({
+  clerkId:{
+    type: String,
+    required: true,
+    unique: true,
+  },
   username: {
     type: String,
     required: true,
@@ -20,7 +26,7 @@ const userSchema = new Schema<IUser>({
     required: true,
     unique: true,
   },
-  name: {
+  firstname: {
     type: String,
     required: true,
   },
