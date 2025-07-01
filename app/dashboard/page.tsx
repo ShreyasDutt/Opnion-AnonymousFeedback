@@ -88,7 +88,6 @@ const page = () => {
             </p>
                 <AddSpaceDialog/>
           </div>}
-          
         </div>
       </div>
       <Footer/>
