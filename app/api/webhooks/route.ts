@@ -33,8 +33,7 @@ export async function POST(req: NextRequest) {
       const { id, email_addresses, first_name, username } = evt.data;
       try {
         await dbConnect();
-        await User.findOneAndUpdate({
-          clerkId: id,
+        await User.findOneAndUpdate({clerkId: id},{
           email: email_addresses[0].email_address,
           firstname: first_name,
           username: username,
