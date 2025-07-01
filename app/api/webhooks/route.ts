@@ -7,8 +7,8 @@ export async function POST(req: NextRequest) {
 
     // Do something with payload
     // For this guide, log payload to console
-    const { id } = evt.data
-    const eventType = evt.type
+    // const { id } = evt.data
+    // const eventType = evt.type
 
     if (evt.type === 'user.created') {
     console.log('userId:', evt.data.id)
