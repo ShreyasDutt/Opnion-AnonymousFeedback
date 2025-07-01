@@ -6,12 +6,14 @@ import Image from 'next/image'
 import { Button } from '@/components/ui/button'
 
 interface PageProps {
-  params: {
+  params: Promise<{
     space: string
-  }
+  }>
 }
 
 const Page = async ({ params }: PageProps) => {
+  const { space } = await params
+
   return (
     <div>
       <Navbar />
@@ -19,7 +21,7 @@ const Page = async ({ params }: PageProps) => {
         <div className='flex gap-3 justify-between items-start'>
           <div className='flex items-center gap-2'>
             <Image src={LogoPng} height={30} width={30} alt='' />
-            <p className='text-2xl font-bold'>{params.space}</p>
+            <p className='text-2xl font-bold'>{space}</p>
           </div>
 
           <div className='flex gap-3 items-center'>
