@@ -1,5 +1,3 @@
-import { Metadata } from 'next'
-import { notFound } from 'next/navigation'
 import { ChartLine, Pencil, Settings } from 'lucide-react'
 import Navbar from '@/components/Navbar'
 import FeedbackUi from '@/components/FeedbackUi'
