@@ -2,8 +2,9 @@ import React from 'react';
 import { Pencil } from 'lucide-react';
 import { Button } from './ui/button';
 
-const Preview = ({Header,SelectedColor,Custommessage,Questions}:{Header:string,CustomColor:string,SelectedColor:string,Custommessage:string,Questions:string[]}) => {
+const Preview = ({Header,SelectedColor,CustomColor,Custommessage,Questions}:{Header:string,CustomColor:string,SelectedColor:string,Custommessage:string,Questions:string[]}) => {
 
+  const Color: string = CustomColor || SelectedColor || 'var(--primary)';
   return (
     <div className=" flex items-center justify-center p-4">
       <div className="w-full max-w-md border rounded-2xl p-4 relative">
@@ -33,12 +34,12 @@ const Preview = ({Header,SelectedColor,Custommessage,Questions}:{Header:string,C
         {/* Questions section */}
         <div>
 
-          <div className="h-1" style={{backgroundColor:SelectedColor}}></div>
             {Questions.length > 0 && (
               <ul className="space-y-3 mb-8">
               <h2 className="text-lg font-semibold mb-1 ">
               QUESTIONS
             </h2>
+            <div className="h-1 w-30" style={{ backgroundColor: Color }}></div>
                 {Questions.map((q, i) => (
                   <li className="flex items-start" key={i}>
                     <span className="text-gray-400 mr-2">•</span>
@@ -52,7 +53,7 @@ const Preview = ({Header,SelectedColor,Custommessage,Questions}:{Header:string,C
         {/* Buttons */}
 <Button
   className="w-full mb-2 text-white"
-  style={{backgroundColor:SelectedColor}}
+  style={{backgroundColor:Color}}
 >
   <Pencil size={20} />
   Send Feedback

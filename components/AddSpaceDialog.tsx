@@ -41,6 +41,7 @@ export function AddSpaceDialog() {
       }
       else{
       setError(true);
+      setcustomColor('');
       return;
       }
   }
@@ -50,7 +51,7 @@ export function AddSpaceDialog() {
   const handleSubmit = async() =>{
     setLoading(true);
     setspaceName(spaceName.toLowerCase().replaceAll(' ','-'))
-    if (!spaceName.trim() || !header.trim() || !customMessage.trim() || selectedColor === '' && customColor === '') {
+    if (!spaceName.trim() || !header.trim() || !customMessage.trim()) {
       toast.error('Please fill all the fields');
       setLoading(false);
       return;
@@ -83,6 +84,12 @@ export function AddSpaceDialog() {
     else {
       toast.error('Something went wrong, please try again');
       setLoading(false);
+      setspaceName('');
+      setheader('');
+      setcustomMessage('');
+      setQuestions(['What do you honestly think about this project?','what can improve?','Anything else to share anonymously?']);
+      setselectedColor('');
+      setcustomColor('');
     }
   }
   

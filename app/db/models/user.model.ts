@@ -33,7 +33,6 @@ const userSchema = new Schema<IUser>({
   spaces: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Space',
-    default: [],
   }],
   isAcceptingFeedback: {
     type: Boolean,

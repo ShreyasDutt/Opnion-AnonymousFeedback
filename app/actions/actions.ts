@@ -5,7 +5,6 @@ import { dbConnect } from "../db/dbConnect"
 
 
 
-import { Types } from 'mongoose';
 import Space from "../db/models/space.model";
 import User from "../db/models/user.model";
 
@@ -18,29 +17,36 @@ export interface SpaceInterface {
     color: string;
 }
 
-export const CreateSpace = async({spacename, title, message, questions, color}:SpaceInterface) =>{
-const { userId } = await auth();
-console.log('userId:', userId);
-try{
-    await dbConnect();
-    const FoundUser = await User.findOne({ clerkId: userId });
-    if (!FoundUser) {
-    console.log('User not found');
-    }
-    const CreatedSpace = await Space.create({
-        spacename,
-        title,
-        message,
-        questions,
-        color,
-        createdby: FoundUser?._id,
-    })
-    FoundUser?.spaces?.push(CreatedSpace._id as Types.ObjectId);
-    await FoundUser?.save();
-    return {success: true, message: 'Space created'};
+export const CreateSpace = async({spacename, title, message, questions, color}:SpaceInterface) => {
+    const { userId } = await auth();
+    console.log('userId:', userId);
     
-    }catch(err){
-        console.log(err)
+    try {
+        await dbConnect();
+        const FoundUser = await User.findOne({ clerkId: userId });
+        
+        if (!FoundUser) {
+            console.log('User not found');
+            return { success: false, message: 'User not found' };
+        }
+        
+        const CreatedSpace = await Space.create({
+            spacename,
+            title,
+            message,
+            questions,
+            color,
+            createdby: FoundUser._id,
+        });
+        await User.findByIdAndUpdate(
+            FoundUser._id,
+            { $addToSet: { spaces: CreatedSpace._id } }
+        );
+        
+        return { success: true, message: 'Space created' };
+        
+    } catch (err) {
+        console.log(err);
+        return { success: false, message: 'Something went wrong' };
     }
-
 }

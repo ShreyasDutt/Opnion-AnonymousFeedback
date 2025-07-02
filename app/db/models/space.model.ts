@@ -20,7 +20,6 @@ const SpaceSchema = new Schema<ISpace>({
   title: {
     type: String,
     required: true,
-    unique: true,
   },
   message: {
     type: String,
