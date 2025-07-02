@@ -6,7 +6,7 @@ const Preview = ({Header,SelectedColor,CustomColor,Custommessage,Questions}:{Hea
 
   const Color: string = CustomColor || SelectedColor || 'var(--primary)';
   return (
-    <div className=" flex items-center justify-center p-4">
+    <div className=" flex items-center justify-center p-4 w-full">
       <div className="w-full max-w-md border rounded-2xl p-4 relative">
         {/* Live preview badge */}
         <div className="flex items-center gap-2 absolute -top-3 left-6 bg-red-600 text-white px-3 py-1 rounded-full text-sm font-medium border">
