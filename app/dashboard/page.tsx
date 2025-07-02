@@ -6,16 +6,33 @@ import LogoPng from '@/public/Opnion.png'
 import Image from 'next/image'
 import { SpaceDropdown } from '@/components/SpaceDropdown'
 import { AddSpaceDialog } from '@/components/AddSpaceDialog'
+import { GetSpaces } from '../actions/actions'
+import { Types } from 'mongoose'
 
 
-const page = () => {
-  const data = [
-              { label: 'Total Feedbacks', value: '178', Icon: MessageSquareQuote },
-              { label: 'Total Spaces', value: '2', Icon: Sparkle },
-              { label: 'Conversion Rate', value: '15%', Icon: Percent },
+export interface spacesInterface {
+  _id: string;
+  spacename: string;
+  title: string;
+  message: string;
+  questions: string[];
+  color: string;
+  feedbacks?: Types.ObjectId[];
+  views: number;
+  createdby: Types.ObjectId;
+}
+
+const page = async() => {
+            const space = await GetSpaces();
+            const spaces = space?.spaces as spacesInterface[];
+            let totalFeedbacks = 0;
+            let totalViews = 0;
+            const ConversionRate = (totalFeedbacks / totalViews) * 100 || 0;
+              const data = [
+              { label: 'Total Feedbacks', value: totalFeedbacks, Icon: MessageSquareQuote },
+              { label: 'Total Spaces', value: spaces?.length, Icon: Sparkle },
+              { label: 'Conversion Rate', value: ConversionRate+'%', Icon: Percent },
             ]
-
-            const spaces = null;
   return (
     <div>
       <Navbar />
@@ -60,24 +77,31 @@ const page = () => {
             {spaces ? <AddSpaceDialog/>:""}
           </div>
             
-            {spaces ? 
+            {spaces.length > 0 ? 
               <div className="my-7 grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
-              <div className="col-span-1 w-full flex flex-col justify-between bg-[#f1f5fe] dark:bg-black/30 gap-16 py-5 rounded-2xl border px-6">
-                <div className="flex justify-between gap-10">
-                  <div className="flex items-center">
-                    <Image src={LogoPng} height={35} width={35} alt="" className="mr-3" />
-                    <p className="font-bold text-lg">Space name</p>
-                  </div>
-                  <div>
-                    <SpaceDropdown />
-                  </div>
-                </div>
 
-                <div className="flex items-center justify-between text-gray-400 font-medium px-1">
-                  <p>Views: 100</p>
-                  <p>Feedbacks: 10</p>
-                </div>
-              </div>              
+                {spaces.map((space)=>{
+                  totalFeedbacks += space.feedbacks?.length || 0;
+                  totalViews += space.views || 0;
+                  return (
+                <div key={space._id} className="col-span-1 w-full flex flex-col justify-between bg-[#f1f5fe] dark:bg-black/30 gap-16 py-5 rounded-2xl border px-6">
+                  <div className="flex justify-between gap-10">
+                    <div className="flex items-center">
+                      <Image src={LogoPng} height={35} width={35} alt="" className="mr-3" />
+                      <p className="font-bold text-lg">{space.spacename}</p>
+                    </div>
+                    <div>
+                      <SpaceDropdown />
+                    </div>
+                  </div>
+
+                  <div className="flex items-center justify-between text-gray-400 font-medium px-1">
+                    <p>Views: {space.views}</p>
+                    <p>Feedbacks: {space.feedbacks?.length}</p>
+                  </div>
+              </div>   
+                  )
+                })}         
             </div>
             :
             <div className="bg-[#f1f5fe] dark:bg-black/30 my-5 flex flex-col items-center justify-center py-5 px-3 md:py-9 rounded-2xl border">

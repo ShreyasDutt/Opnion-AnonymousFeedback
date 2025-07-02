@@ -32,8 +32,9 @@ export const CreateSpace = async({spacename, title, message, questions, color}:S
         }
         if (FoundSpace) {
             newSpacename = spacename+(FoundSpace.length+1);
+            console.log(newSpacename);
         }
-        newSpacename = spacename;
+        else{newSpacename = spacename;}
 
         const CreatedSpace = await Space.create({
             spacename: newSpacename,
@@ -50,6 +51,23 @@ export const CreateSpace = async({spacename, title, message, questions, color}:S
         
         return { success: true, message: 'Space created' };
         
+    } catch (err) {
+        console.log(err);
+        return { success: false, message: 'Something went wrong' };
+    }
+}
+
+export const GetSpaces = async() => {
+    const { userId } = await auth();
+    try {
+        await dbConnect();
+        const FoundUser = await User.findOne({ clerkId: userId });
+        if (!FoundUser) {
+            console.log('User not found');
+            return { success: false, message: 'User not found' };
+        }
+        const spaces = await Space.find({ createdby: FoundUser._id }).populate('createdby');
+        return { success: true, spaces: spaces};
     } catch (err) {
         console.log(err);
         return { success: false, message: 'Something went wrong' };
