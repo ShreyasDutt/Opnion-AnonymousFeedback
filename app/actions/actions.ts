@@ -21,12 +21,12 @@ export interface SpaceInterface {
 export const CreateSpace = async({spacename, title, message, questions, color}:SpaceInterface) =>{
 const { userId } = await auth();
 console.log('userId:', userId);
-const FoundUser = await User.findOne({ clerkId: userId });
-if (!FoundUser) {
-   console.log('User not found');
-}
 try{
     await dbConnect();
+    const FoundUser = await User.findOne({ clerkId: userId });
+    if (!FoundUser) {
+    console.log('User not found');
+    }
     const CreatedSpace = await Space.create({
         spacename,
         title,
