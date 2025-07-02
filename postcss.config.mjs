@@ -1,4 +1,3 @@
-
 const config = {
    extend: {
     keyframes: {

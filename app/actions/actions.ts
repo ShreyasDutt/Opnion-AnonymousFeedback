@@ -5,7 +5,7 @@ import { dbConnect } from "../db/dbConnect"
 
 
 
-import mongoose, { Schema, Document, Types } from 'mongoose';
+import { Types } from 'mongoose';
 import Space from "../db/models/space.model";
 import User from "../db/models/user.model";
 
