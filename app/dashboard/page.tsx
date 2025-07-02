@@ -23,7 +23,7 @@ const page = () => {
         {/* Welcome */}
         <div className="flex items-center justify-start md:px-10 lg:px-40">
           <p className="text-3xl font-bold flex gap-2">Welcome, Shreyas</p>
-          <p className={`waving-hand text-4xl`}>👋🏻</p>
+          <p className={`text-4xl motion-preset-shake`}>👋🏻</p>
         </div>
 
         {/* Overview */}

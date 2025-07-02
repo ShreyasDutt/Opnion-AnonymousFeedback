@@ -5,7 +5,7 @@ export interface IUser extends Document {
   username: string;
   email: string;
   firstname: string;
-  spaces?: Types.ObjectId;
+  spaces: Types.ObjectId[];
   isAcceptingFeedback: boolean;
 }
 
@@ -30,10 +30,11 @@ const userSchema = new Schema<IUser>({
     type: String,
     required: true,
   },
-  spaces: {
+  spaces: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Space',
-  },
+    default: [],
+  }],
   isAcceptingFeedback: {
     type: Boolean,
     default: true,

@@ -32,7 +32,7 @@ const SpaceSchema = new Schema<ISpace>({
   }],
   questions: [{
     type: String,
-    default: true,
+    default: [],
   }],
   color: {
     type: String,

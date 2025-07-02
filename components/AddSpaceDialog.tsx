@@ -13,14 +13,18 @@ import {
 } from '@/components/ui/dialog';
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { CirclePlus, Eye, EyeClosed, Plus, Trash2 } from "lucide-react"
+import { CirclePlus, Eye, EyeClosed, Loader2, Plus, Trash2 } from "lucide-react"
 import { MarkdownTextarea } from "./MarkdownTextarea"
 import Preview from "./Preview";
-import { useState } from "react";
+import { useRef, useState } from "react";
+import { CreateSpace } from "@/app/actions/actions";
+import { toast } from "sonner";
+import { set } from "mongoose";
 
 
 
 export function AddSpaceDialog() {
+  const CloseButtonRef = useRef<HTMLButtonElement>(null);
   const [showPreview, setshowPreview] = useState<boolean>(false);
   const [selectedColor, setselectedColor] = useState<string>('');
   const [customColor, setcustomColor] = useState<string>('');
@@ -29,6 +33,7 @@ export function AddSpaceDialog() {
   const [header, setheader] = useState<string>('');
   const [customMessage, setcustomMessage] = useState<string>('');
   const [questions, setQuestions] = useState<string[]>(['What do you honestly think about this project?','what can improve?','Anything else to share anonymously?'])
+  const [loading, setLoading] = useState<boolean>(false);
 
   const checkValidHex = (hex:string) =>{
     if (validateHTMLColorHex(hex)) {
@@ -42,6 +47,45 @@ export function AddSpaceDialog() {
   }
 
   const colors = [{color:'#ff6800',id:1},{color:'#faba28',id:2},{color:'#83ddb8',id:3},{color:'#35cf89',id:4},{color:'#8fd1fd',id:5},{color:'#0293e3',id:6},{color:'#abb9c3',id:7}];
+
+  const handleSubmit = async() =>{
+    setLoading(true);
+    setspaceName(spaceName.toLowerCase().replaceAll(' ','-'))
+    if (!spaceName.trim() || !header.trim() || !customMessage.trim() || selectedColor === '' && customColor === '') {
+      toast.error('Please fill all the fields');
+      setLoading(false);
+      return;
+    }
+    else if (Error){
+      toast.error('Invalid hex color');
+      setLoading(false);
+      return;
+    }
+    questions.forEach((q)=>{
+      if( q.trim() === ''){
+        toast.error('Please fill all the questions');
+        setLoading(false);
+        return;
+      }
+    })
+
+    const response = await CreateSpace({
+      spacename: spaceName,
+      title: header,
+      message: customMessage,
+      questions: questions,
+      color: selectedColor || customColor
+    });
+    if (response?.success) {
+      CloseButtonRef.current?.click();
+      toast.success(response?.message);
+      setLoading(false);
+    }
+    else {
+      toast.error('Something went wrong, please try again');
+      setLoading(false);
+    }
+  }
   
   return (
       <ResponsiveModal>
@@ -78,8 +122,8 @@ export function AddSpaceDialog() {
               <Label htmlFor="username-1">Custom message</Label>
                 <MarkdownTextarea value={customMessage} onChange={(e)=>{setcustomMessage(e.target.value)}} />
             </div>
-              <div className="grid gap-3">
-              <Label htmlFor="username-1">Questions</Label>
+              <div className={`grid gap-3 ${questions.length===0 ? 'gap-0':''}`}>
+              <Label htmlFor="username-1" className={`${questions.length===0 ? 'hidden':''}`}>Questions</Label> 
               <div className="flex items-center gap-2 flex-col">
               {questions.map((q, index) => (
                 <Input
@@ -116,7 +160,7 @@ export function AddSpaceDialog() {
                   variant="outline"
                   size="icon"
                   onClick={() => {
-                    if (questions.length === 1) return;
+                    if (questions.length === 0) return;
                     setQuestions(questions.slice(0, -1));
                   }}
                 >
@@ -159,12 +203,13 @@ export function AddSpaceDialog() {
           }
           <ResponsiveModalFooter className="w-80 md:w-full gap-3 lg:gap-0">
             <ResponsiveModalClose asChild>
-              <Button variant="outline">Cancel</Button>
+              <Button ref={CloseButtonRef} variant="outline">Cancel</Button>
             </ResponsiveModalClose>
             <Button variant={"outline"} onClick={()=>{setshowPreview(!showPreview)}}>
             {showPreview ? <p className="flex items-center gap-2">Close preview <EyeClosed/></p>:<p className="flex items-center gap-2">Preview<Eye /></p>}
             </Button>
-            <Button type="submit">Save changes</Button>
+            <Button type="submit" onClick={handleSubmit}>
+              {loading ? <Loader2 className="animate-spin size-4 self-center" /> : 'Save changes'}</Button>
           </ResponsiveModalFooter>
         </ResponsiveModalContent>
       </form>

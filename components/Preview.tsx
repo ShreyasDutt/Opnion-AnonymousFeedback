@@ -31,22 +31,22 @@ const Preview = ({Header,SelectedColor,Custommessage,Questions}:{Header:string,C
         </p>
         
         {/* Questions section */}
-        <div className="mb-8">
-          <h2 className="text-lg font-semibold mb-1 ">
-            QUESTIONS
-          </h2>
-          <div className="h-1 w-12 mb-6" style={{backgroundColor:SelectedColor}}></div>
-          
-          {Questions.length > 0 && (
-            <ul className="space-y-3">
-              {Questions.map((q, i) => (
-                <li className="flex items-start" key={i}>
-                  <span className="text-gray-400 mr-2">•</span>
-                  {q}
-                </li>
-              ))}
-            </ul>
-          )}
+        <div>
+
+          <div className="h-1" style={{backgroundColor:SelectedColor}}></div>
+            {Questions.length > 0 && (
+              <ul className="space-y-3 mb-8">
+              <h2 className="text-lg font-semibold mb-1 ">
+              QUESTIONS
+            </h2>
+                {Questions.map((q, i) => (
+                  <li className="flex items-start" key={i}>
+                    <span className="text-gray-400 mr-2">•</span>
+                    {q}
+                  </li>
+                ))}
+              </ul>
+            )}
         </div>
         
         {/* Buttons */}
