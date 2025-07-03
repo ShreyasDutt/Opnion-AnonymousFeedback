@@ -12,7 +12,7 @@ export async function POST(req: NextRequest) {
     const { id, email_addresses, first_name, username } = evt.data;
     try{
       await dbConnect();
-      const createdUser = await User.create({
+      await User.create({
           clerkId: id,
           username: username,
           email: email_addresses[0].email_address,

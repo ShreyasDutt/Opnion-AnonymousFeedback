@@ -1,4 +1,3 @@
-import { ModeToggle } from '@/components/ModeToggle'
 import Image from 'next/image'
 import Link from 'next/link'
 import LogoPng from '@/public/Opnion.png'
