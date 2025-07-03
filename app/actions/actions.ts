@@ -142,3 +142,17 @@ export const GetUser = async() => {
         return { success: false, message: 'Something went wrong' };
     }
 }
+
+export const GetSpace = async(spacename: string) => {
+    try{
+        await dbConnect();
+        const FoundSpace = await Space.findOne({ spacename: spacename });
+        if(!FoundSpace){
+            return { success: false, message: 'Space not found' };
+        }
+        return { success: true, space: FoundSpace };
+    }catch(err){
+        console.log(err);
+        return { success: false, message: 'Something went wrong' };
+    }
+}

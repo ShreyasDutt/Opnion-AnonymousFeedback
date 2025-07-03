@@ -24,7 +24,7 @@ import { Switch } from "./ui/switch";
 
 
 
-export function AddSpaceDialog() {
+export function EditSpaceDialog() {
   const CloseButtonRef = useRef<HTMLButtonElement>(null);
   const [showPreview, setshowPreview] = useState<boolean>(false);
   const [selectedColor, setselectedColor] = useState<string>('');
@@ -135,12 +135,12 @@ export function AddSpaceDialog() {
 }
   
   return (
-      <ResponsiveModal >
+      <ResponsiveModal>
       <form>
         <ResponsiveModalTrigger asChild>
           <Button className="text-white mt-5 flex py-5 gap-2">
               <Plus />
-              Create a new space
+              Edit the space
             </Button>
         </ResponsiveModalTrigger>
         <ResponsiveModalContent className="grid place-items-center">
@@ -175,6 +175,9 @@ export function AddSpaceDialog() {
                   </div>
                   </div>
                   : ''}
+
+                
+
               </div>
             <div className="grid gap-3">
               <Label htmlFor="username-1">Header title</Label>

@@ -12,9 +12,12 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { DeleteSpace, DuplicateSpace } from "@/app/actions/actions"
 import { toast } from "sonner"
+import { useRouter } from "next/navigation"
 
 export function SpaceDropdown({spaceId,spaceName}:{spaceId:string,spaceName:string}) {
 
+    const router = useRouter();
+    
     const DeleteHandler = async () => {
       const res = await DeleteSpace(spaceId);
       if (res.success) {
@@ -49,14 +52,11 @@ export function SpaceDropdown({spaceId,spaceName}:{spaceId:string,spaceName:stri
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuItem onClick={() => console.log('hi')}>
+        <DropdownMenuItem onClick={() => router.push(`/dashboard/${spaceName}`)}>
           Manage feedbacks
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => CopyLinkhandler()}>
           Get the link
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => console.log('hi')}>
-          Edit the space
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => DuplicateHandler()}>
           Duplicate the space

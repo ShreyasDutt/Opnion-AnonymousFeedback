@@ -18,7 +18,7 @@ export async function POST(req: NextRequest) {
           email: email_addresses[0].email_address,
           firstname: first_name,
       })
-      console.log(createdUser);
+      console.log('user created');
     }catch(err){
       console.log(err);
     }
