@@ -6,7 +6,7 @@ import LogoPng from '@/public/Opnion.png'
 import Image from 'next/image'
 import { SpaceDropdown } from '@/components/SpaceDropdown'
 import { AddSpaceDialog } from '@/components/AddSpaceDialog'
-import { GetSpaces } from '../actions/actions'
+import { GetSpaces, GetUser } from '../actions/actions'
 import { Types } from 'mongoose'
 import Link from 'next/link'
 
@@ -23,8 +23,10 @@ export interface spacesInterface {
 }
 
 const page = async () => {
-  const space = await GetSpaces();
-  const spaces = space?.spaces as spacesInterface[];
+const [space, userData] = await Promise.all([GetSpaces(), GetUser()]);
+const { user } = userData;
+
+const spaces = space?.spaces as spacesInterface[];
 
   let totalFeedbacks = 0;
   let totalViews = 0;
@@ -45,8 +47,8 @@ const page = async () => {
     <div>
       <Navbar />
       <div className="py-10 px-6">
-        <div className="flex items-center justify-start md:px-10 lg:px-40">
-          <p className="text-3xl font-bold flex gap-2">Welcome, Shreyas</p>
+        <div className="flex items-end justify-start md:px-10 lg:px-40">
+          <p className="text-3xl font-bold flex gap-2">Welcome, {user?.firstname}</p>
           <p className="text-4xl motion-preset-shake">👋🏻</p>
         </div>
 
@@ -57,7 +59,7 @@ const page = async () => {
             <p className="text-3xl font-bold">Overview</p>
           </div>
 
-          {spaces.length > 0 ? (
+          {spaces?.length > 0 ? (
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
               {data.map(({ label, value, Icon }, idx) => (
                 <div
@@ -75,7 +77,7 @@ const page = async () => {
               ))}
             </div>
           ) : (
-            <div className="bg-[#f1f5fe] dark:bg-black/30 border p-6 rounded-2xl shadow-sm text-center">
+            <div className="bg-[#f1f5fe] dark:bg-black/30 border p-6 rounded-2xl text-center">
               <p className="text-lg font-bold text-gray-800 dark:text-white">No data to show</p>
               <p className="text-gray-600 dark:text-gray-400 mt-2">
                 You haven't created any spaces yet, so your dashboard is empty.

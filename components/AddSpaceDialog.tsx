@@ -19,6 +19,8 @@ import Preview from "./Preview";
 import { useRef, useState } from "react";
 import { CreateSpace } from "@/app/actions/actions";
 import { toast } from "sonner";
+import Image from "next/image";
+import { Switch } from "./ui/switch";
 
 
 
@@ -33,6 +35,9 @@ export function AddSpaceDialog() {
   const [customMessage, setcustomMessage] = useState<string>('');
   const [questions, setQuestions] = useState<string[]>(['What do you honestly think about this project?','what can improve?','Anything else to share anonymously?'])
   const [loading, setLoading] = useState<boolean>(false);
+  const [SpaceLogo, setSpaceLogo] = useState<File | undefined>(undefined);
+  const [LogoUrl, setLogoUrl] = useState<string | undefined>(undefined);
+  const [isRounded, setisRounded] = useState<boolean>(false);
 
   const checkValidHex = (hex:string) =>{
     if (validateHTMLColorHex(hex)) {
@@ -61,6 +66,11 @@ export function AddSpaceDialog() {
       setLoading(false);
       return;
     }
+    else if(!SpaceLogo){
+      toast.error('Space logo is required');
+      setLoading(false);
+      return;
+    }
     questions.forEach((q)=>{
       if( q.trim() === ''){
         toast.error('Please fill all the questions');
@@ -69,12 +79,33 @@ export function AddSpaceDialog() {
       }
     })
 
+        const formData = new FormData();
+        formData.append('photo', SpaceLogo);
+
+        const uploadRes = await fetch("/api/image-upload", {
+        method: "POST",
+        body: formData,
+      });
+      
+      const data = await uploadRes.json();
+      const photoUrl = data.url;
+      const public_ID = data.publicId;
+
+      if (!data.success) {
+        toast.error('Image upload failed');
+        setLoading(false);
+        return;
+      }
+
     const response = await CreateSpace({
       spacename: spaceName,
       title: header,
       message: customMessage,
       questions: questions,
-      color: selectedColor || customColor
+      color: selectedColor || customColor,
+      SpaceLogo: photoUrl,
+      imageId: public_ID,
+      rounded: isRounded
     });
     if (response?.success) {
       CloseButtonRef.current?.click();
@@ -92,6 +123,16 @@ export function AddSpaceDialog() {
       setcustomColor('');
     }
   }
+  
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  if (e.target.files && e.target.files.length > 0) {
+    const file = e.target.files[0];
+    
+    const url = URL.createObjectURL(file);
+    setLogoUrl(url);
+    setSpaceLogo(file);
+  }
+}
   
   return (
       <ResponsiveModal>
@@ -111,7 +152,7 @@ export function AddSpaceDialog() {
             </ResponsiveModalDescription>
           </ResponsiveModalHeader>
           {showPreview ? 
-          <Preview Header={header} CustomColor={customColor} SelectedColor={selectedColor} Custommessage={customMessage} Questions={questions}/> 
+          <Preview Header={header} CustomColor={customColor} SelectedColor={selectedColor} Custommessage={customMessage} Questions={questions} LogoUrl={LogoUrl} Rounded={isRounded}/> 
           :
           <div className="grid gap-4">
             <div className="grid">
@@ -119,6 +160,25 @@ export function AddSpaceDialog() {
               <Input id="name-1" name="name" required className="mt-3 mb-1.5 w-80 md:w-full" placeholder="Project Feedback" value={spaceName} onChange={(e)=>{setspaceName(e.target.value)}}/>
               <p className="text-[12.5px]">Public URL is: send-opinion.vercel.app/{spaceName.toLowerCase().replaceAll(' ','-')}</p>
             </div>
+              <div className="grid gap-3">
+                <Label htmlFor="space-logo">Space logo</Label>
+                <Input id="space-logo" name="space-logo" type="file" accept="image/*" className="w-80 md:w-full" onChange={handleImageChange}/>
+              </div>
+              <div className="flex gap-3 items-center">
+                {LogoUrl? <Image src={LogoUrl} alt="Space Logo" width={100} height={100} className={`mb-3 ${isRounded ? 'rounded-full' : 'rounded-sm'}`} /> : ''}
+               
+                {LogoUrl ?<div className="flex flex-col items-center w-full gap-2">
+                  <Button onClick={()=>{setLogoUrl(undefined); setSpaceLogo(undefined)}} variant={'outline'} className="w-full"><Trash2/></Button>
+                  <div className="flex items-center gap-2">
+                  <Switch id="rounded" checked={isRounded} onCheckedChange={()=>{setisRounded(!isRounded)}} className="cursor-pointer"/>
+                  <Label htmlFor="rounded" className="text-[12.5px]">Circle</Label>
+                  </div>
+                  </div>
+                  : ''}
+
+                
+
+              </div>
             <div className="grid gap-3">
               <Label htmlFor="username-1">Header title</Label>
               <Input id="username-1" name="header" required className="w-80 md:w-full" placeholder="Presentation Feedback"

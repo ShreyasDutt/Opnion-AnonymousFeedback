@@ -2,12 +2,16 @@
 
 import { auth } from "@clerk/nextjs/server";
 import { dbConnect } from "../db/dbConnect"
-
-
-
 import Space from "../db/models/space.model";
 import User from "../db/models/user.model";
 import { revalidatePath } from "next/cache";
+import { v2 as cloudinary } from "cloudinary";
+
+cloudinary.config({
+  cloud_name: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+})
 
 
 export interface SpaceInterface {
@@ -16,9 +20,12 @@ export interface SpaceInterface {
     message: string;
     questions: string[];
     color: string;
+    SpaceLogo: string;
+    imageId: string;
+    rounded: boolean;
 }
 
-export const CreateSpace = async({spacename, title, message, questions, color}:SpaceInterface) => {
+export const CreateSpace = async({spacename, title, message, questions, color, SpaceLogo, imageId,rounded}:SpaceInterface) => {
     const { userId } = await auth();
     console.log('userId:', userId);
     let newSpacename = '';
@@ -43,6 +50,9 @@ export const CreateSpace = async({spacename, title, message, questions, color}:S
             message,
             questions,
             color,
+            SpaceLogo,
+            imageId,
+            rounded,
             createdby: FoundUser._id,
         });
         await User.findByIdAndUpdate(
@@ -79,7 +89,10 @@ export const GetSpaces = async() => {
 export const DeleteSpace = async(spaceId: string) => {
     try{
         await dbConnect();
-        await Space.findByIdAndDelete(spaceId);
+        const foundSpace = await Space.findByIdAndDelete(spaceId);
+        if(foundSpace){
+        await cloudinary.uploader.destroy(foundSpace.imageId);
+        }
     
         revalidatePath('/dashboard');
         return { success: true, message: 'Space deleted' };
@@ -114,6 +127,18 @@ export const DuplicateSpace = async(spaceId: string) => {
         return { success: true, message: 'Space duplicated' };
     } catch (error) {
         console.log(error);
+        return { success: false, message: 'Something went wrong' };
+    }
+}
+
+export const GetUser = async() => {
+    const { userId } = await auth();
+    try {
+        await dbConnect();
+        const FoundUser = await User.findOne({ clerkId: userId })
+        return { success: true, user: FoundUser };
+    }catch (err) {
+        console.log(err);
         return { success: false, message: 'Something went wrong' };
     }
 }

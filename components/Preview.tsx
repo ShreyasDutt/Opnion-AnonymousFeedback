@@ -1,10 +1,12 @@
 import React from 'react';
 import { Pencil } from 'lucide-react';
 import { Button } from './ui/button';
+import Image from 'next/image';
 
-const Preview = ({Header,SelectedColor,CustomColor,Custommessage,Questions}:{Header:string,CustomColor:string,SelectedColor:string,Custommessage:string,Questions:string[]}) => {
+const Preview = ({Header,SelectedColor,CustomColor,Custommessage,Questions,LogoUrl,Rounded}:{Header:string,CustomColor:string,SelectedColor:string,Custommessage:string,Questions:string[],LogoUrl:string|undefined,Rounded:boolean}) => {
 
   const Color: string = CustomColor || SelectedColor || 'var(--primary)';
+  console.log(LogoUrl)
   return (
     <div className=" flex items-center justify-center p-4 w-full">
       <div className="w-full max-w-md border rounded-2xl p-4 relative">
@@ -15,11 +17,13 @@ const Preview = ({Header,SelectedColor,CustomColor,Custommessage,Questions}:{Hea
         
         {/* Logo */}
         <div className="flex justify-center mt-6 mb-6">
+          {LogoUrl? 
+<Image src={LogoUrl} alt="Space Logo" width={100} height={100} className={`mb-3 ${Rounded ? 'rounded-full' : 'rounded-sm'}`} />          : 
           <div className="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center relative">
             <div className="w-8 h-8 bg-gray-800 rounded-full"></div>
             <div className="absolute top-2 right-2 w-3 h-3 bg-blue-800 rounded-full"></div>
-          </div>
-        </div>
+          </div>}
+        </div> 
         
         {/* Title */}
         <h1 className="text-2xl font-bold text-center mb-2">
