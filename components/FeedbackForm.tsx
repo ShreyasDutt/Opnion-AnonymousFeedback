@@ -23,7 +23,7 @@ export function FeedbackForm({color}: {color: string}) {
   const [loading, setLoading] = useState<boolean>(false);
 
 
-
+    
   
   return (
       <ResponsiveModal>
@@ -58,7 +58,7 @@ export function FeedbackForm({color}: {color: string}) {
             <ResponsiveModalClose asChild>
               <Button style={{ backgroundColor: color }} ref={CloseButtonRef} variant="outline">Cancel</Button>
             </ResponsiveModalClose>
-            <Button style={{ backgroundColor: color }} type="submit" onClick={()=>{console.log(customMessage)}}>
+            <Button style={{ backgroundColor: color }} type="submit" onClick={()=>{setLoading(true)}}>
               {loading ? <Loader2 className="animate-spin size-4 self-center" /> : 'Save changes'}</Button>
           </ResponsiveModalFooter>
         </ResponsiveModalContent>
