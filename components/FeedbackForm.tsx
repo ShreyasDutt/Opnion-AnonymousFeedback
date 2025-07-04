@@ -16,7 +16,6 @@ import { FeedbackFormTextArea } from "./MarkdownTextarea"
 import { useRef, useState } from "react";
 import { SubmitFeedback } from "@/app/actions/actions";
 import { toast } from "sonner";
-import { set } from "mongoose";
 
 export function FeedbackForm({ color,spacename }: { color: string, spacename: string }) {
   const CloseButtonRef = useRef<HTMLButtonElement>(null);
