@@ -1,8 +1,8 @@
 import React from 'react'
 import Image from 'next/image'
+import { GetSpace } from '../../actions/actions'
 import { notFound } from 'next/navigation'
 import { FeedbackForm } from '@/components/FeedbackForm'
-import { GetSpace } from '@/app/actions/actions'
 
 interface PageProps {
   params: Promise<{
