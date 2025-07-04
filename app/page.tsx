@@ -1,7 +1,6 @@
 import Navbar from '@/components/Navbar'
 import Image from 'next/image'
 import React from 'react'
-import UserImg from '@/public/userimg.png'
 import { FaDotCircle } from 'react-icons/fa'
 import { Button } from '@/components/ui/button'
 import { ArrowRight, ArrowRightIcon, CircleCheck, Laptop, MessageSquareQuote, PenTool, Rocket, Send, Sparkles, User } from 'lucide-react'
@@ -39,7 +38,7 @@ const page = () => {
         <div className='bg-[#c8dcfd] dark:bg-[#1e293b] mt-7 lg:mt-0 p-5 w-full lg:w-1/3 lg:box-content py-8 lg:py-10 rounded-lg border dark:border-slate-600'>
           <div className='flex flex-col'>
                 <div className='flex items-center gap-4'>
-                  <Image src={UserImg} height={100} width={100} alt='User image' className='rounded-full' />
+                  <Image src={'https://res.cloudinary.com/ddfs2kbi3/image/upload/v1751611597/userimg_ttu56f.jpg'} height={100} width={100} alt='User image' className='rounded-full' />
                   <div className='flex flex-col'>
                     <p className='text-lg font-semibold text-gray-800 dark:text-gray-100'>Alex Carter</p>
                     <p className='text-sm text-gray-500 dark:text-gray-300 italic'>"What did you think of my presentation?"</p>

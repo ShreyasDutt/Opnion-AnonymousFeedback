@@ -150,7 +150,11 @@ export const GetSpace = async(spacename: string) => {
         if(!FoundSpace){
             return { success: false, message: 'Space not found' };
         }
+        else{
+        FoundSpace.views = FoundSpace.views + 1;
+        await FoundSpace.save();
         return { success: true, space: FoundSpace };
+        }
     }catch(err){
         console.log(err);
         return { success: false, message: 'Something went wrong' };

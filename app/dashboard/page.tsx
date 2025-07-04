@@ -2,7 +2,6 @@ import React from 'react'
 import Navbar from '../../components/Navbar'
 import { FolderPlus, MessageSquareQuote, Percent, Sparkle } from 'lucide-react'
 import Footer from '@/components/Footer'
-import LogoPng from '@/public/Opnion.png'
 import Image from 'next/image'
 import { SpaceDropdown } from '@/components/SpaceDropdown'
 import { AddSpaceDialog } from '@/components/AddSpaceDialog'
@@ -13,6 +12,9 @@ import Link from 'next/link'
 export interface spacesInterface {
   _id: string;
   spacename: string;
+  SpaceLogo: string;
+  rounded: boolean;
+  imageId: string;
   title: string;
   message: string;
   questions: string[];
@@ -96,9 +98,9 @@ const spaces = space?.spaces as spacesInterface[];
             <div className="my-7 grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
               {spaces.map((space) => (
                 <div key={space._id} className="col-span-1 w-full flex flex-col justify-between bg-[#f1f5fe] dark:bg-black/30 gap-16 py-5 rounded-2xl border px-6">
-                  <div className="flex justify-between gap-10">
+                  <div className="flex justify-between items-center gap-10">
                     <div className="flex items-center">
-                      <Image src={LogoPng} height={35} width={35} alt="" className="mr-3" />
+                      <Image src={space.SpaceLogo} height={50} width={50} alt="" className="mr-4 rounded-full" />
                       <Link href={`/dashboard/${space.spacename}`} className="font-bold text-lg">{space.spacename}</Link>
                     </div>
                     <div>
