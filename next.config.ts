@@ -1,5 +1,6 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {
+import type { NextConfig } from "next";
+
+const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
       {
@@ -8,20 +9,6 @@ const nextConfig = {
         pathname: '/**',
       },
     ],
-  },
-
-  async headers() {
-    return [
-      {
-        source: '/embed/:path*',
-        headers: [
-          {
-            key: 'X-Frame-Options',
-            value: 'ALLOWALL',
-          },
-        ],
-      },
-    ];
   },
 };
 
