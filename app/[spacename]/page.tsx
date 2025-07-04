@@ -19,7 +19,6 @@ const page = async({ params }: PageProps) => {
         return notFound();
       }
       const space = Data.space;
-      console.log(space);
   return (
     <div className="min-h-screen mt-10">      
         {/* Main Content */}
@@ -61,7 +60,7 @@ const page = async({ params }: PageProps) => {
                     </div>
                     
                     <div className='flex items-center justify-center'>
-                        <FeedbackForm color={space?.color || '#000'} />
+                        <FeedbackForm color={space?.color || '#000'} spacename={spacename} />
                     </div>
                 </div>
             </div>
