@@ -84,7 +84,7 @@ export function EditSpaceDialog({
       return;
     }
 
-    for (let q of questions) {
+    for (const q of questions) {
       if (q.trim() === '') {
         toast.error('Please fill all the questions');
         setLoading(false);
