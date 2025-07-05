@@ -27,6 +27,18 @@ export interface SpaceInterface {
     rounded: boolean;
 }
 
+export interface SpaceUpdateInterface {
+    SpaceId: unknown;
+    spacename: string;
+    title: string;
+    message: string;
+    questions: string[];
+    color: string;
+    SpaceLogo: string;  
+    imageId: string;
+    rounded: boolean;
+}
+
 const generateUniqueSpacename = async (base: string) => {
   const slugBase = base.trim().toLowerCase().replaceAll(' ', '-');
   let uniqueSlug = slugBase;
@@ -76,6 +88,28 @@ export const CreateSpace = async({spacename, title, message, questions, color, S
     } catch (err) {
         console.log(err);
         return { success: false, message: 'Something went wrong' };
+    }
+}
+
+export const UpdateSpace = async({spacename, title, message, questions, color, SpaceLogo, imageId,rounded}:SpaceInterface) => {
+
+    try {
+        await Space.findOneAndUpdate({spacename},{
+            title,
+            message,
+            questions,
+            color,
+            SpaceLogo,
+            imageId,
+            rounded,
+        });
+
+        revalidatePath(`/dashboard/${spacename}`);
+        return { success: true, message: 'Space updated' };
+        
+    } catch (err) {
+        console.log(err);
+        return { success: false, message: 'Error updating space' };
     }
 }
 

@@ -1,5 +1,5 @@
-'use client'
-import { Button } from "@/components/ui/button"
+'use client';
+import { Button } from "@/components/ui/button";
 import { validateHTMLColorHex } from "validate-color";
 import {
   ResponsiveModal,
@@ -11,230 +11,245 @@ import {
   ResponsiveModalTitle,
   ResponsiveModalTrigger,
 } from '@/components/ui/dialog';
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { CirclePlus, Eye, EyeClosed, Loader2, Pencil, Plus, Trash2 } from "lucide-react"
-import { MarkdownTextarea } from "./MarkdownTextarea"
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { CirclePlus, Eye, EyeClosed, Loader2, Pencil, Trash2 } from "lucide-react";
+import { MarkdownTextarea } from "./MarkdownTextarea";
 import Preview from "./Preview";
 import { useRef, useState } from "react";
-import { CreateSpace } from "@/app/actions/actions";
+import { UpdateSpace } from "@/app/actions/actions";
 import { toast } from "sonner";
 import Image from "next/image";
 import { Switch } from "./ui/switch";
 
-
-
-export function EditSpaceDialog() {
+export function EditSpaceDialog({
+  spacename,
+  title,
+  message,
+  Logourl,
+  colorHex,
+  rounded,
+  question,
+  LogoId
+}: {
+  spacename: string;
+  title: string;
+  message: string;
+  Logourl: string;
+  colorHex: string;
+  rounded: boolean;
+  question: string[];
+  LogoId: string;
+}) {
   const CloseButtonRef = useRef<HTMLButtonElement>(null);
-  const [showPreview, setshowPreview] = useState<boolean>(false);
-  const [selectedColor, setselectedColor] = useState<string>('');
-  const [customColor, setcustomColor] = useState<string>('');
+  const [showPreview, setshowPreview] = useState(false);
+  const [selectedColor, setselectedColor] = useState('');
+  const [customColor, setcustomColor] = useState(colorHex);
   const [Error, setError] = useState<boolean | null>(null);
-  const [spaceName, setspaceName] = useState<string>('');
-  const [header, setheader] = useState<string>('');
-  const [customMessage, setcustomMessage] = useState<string>('');
-  const [questions, setQuestions] = useState<string[]>(['What do you honestly think about this project?','what can improve?','Anything else to share anonymously?'])
-  const [loading, setLoading] = useState<boolean>(false);
+  const spaceName = spacename;
+  const [header, setheader] = useState(title);
+  const [customMessage, setcustomMessage] = useState(message);
+  const [questions, setQuestions] = useState(question);
+  const [loading, setLoading] = useState(false);
   const [SpaceLogo, setSpaceLogo] = useState<File | undefined>(undefined);
-  const [LogoUrl, setLogoUrl] = useState<string | undefined>(undefined);
-  const [isRounded, setisRounded] = useState<boolean>(false);
+  const [LogoUrl, setLogoUrl] = useState<string | undefined>(Logourl);
+  const LogoPublicId = LogoId;
+  const [isRounded, setisRounded] = useState<boolean>(rounded);
 
-  const checkValidHex = (hex:string) =>{
-    if (validateHTMLColorHex(hex)) {
-      setError(false);
-      return;
-      }
-      else{
-      setError(true);
-      setcustomColor('');
-      return;
-      }
-  }
+  const checkValidHex = (hex: string) => {
+    setError(!validateHTMLColorHex(hex));
+  };
 
-  const colors = [{color:'#ff6800',id:1},{color:'#faba28',id:2},{color:'#83ddb8',id:3},{color:'#35cf89',id:4},{color:'#8fd1fd',id:5},{color:'#0293e3',id:6},{color:'#abb9c3',id:7}];
+  const colors = [
+    { color: '#ff6800', id: 1 },
+    { color: '#faba28', id: 2 },
+    { color: '#83ddb8', id: 3 },
+    { color: '#35cf89', id: 4 },
+    { color: '#8fd1fd', id: 5 },
+    { color: '#0293e3', id: 6 },
+    { color: '#abb9c3', id: 7 },
+  ];
 
-  const handleSubmit = async() =>{
+  const handleSubmit = async () => {
     setLoading(true);
-    setspaceName(spaceName.toLowerCase().replaceAll(' ','-'))
-    if (!spaceName.trim() || !header.trim() || !customMessage.trim()) {
+    const finalName = spaceName.toLowerCase().replaceAll(' ', '-');
+    if (!finalName.trim() || !header.trim() || !customMessage.trim()) {
       toast.error('Please fill all the fields');
       setLoading(false);
       return;
     }
-    else if (Error){
+    if (Error) {
       toast.error('Invalid hex color');
       setLoading(false);
       return;
     }
-    else if(!SpaceLogo){
-      toast.error('Space logo is required');
-      setLoading(false);
-      return;
-    }
-    questions.forEach((q)=>{
-      if( q.trim() === ''){
+
+    for (let q of questions) {
+      if (q.trim() === '') {
         toast.error('Please fill all the questions');
         setLoading(false);
         return;
       }
-    })
+    }
 
-        const formData = new FormData();
-        formData.append('photo', SpaceLogo);
+    let finalPhotoUrl = LogoUrl;
+    let finalPublicId = LogoPublicId;
 
-        const uploadRes = await fetch("/api/image-upload", {
+    if (SpaceLogo) {
+      const formData = new FormData();
+      formData.append('photo', SpaceLogo);
+       formData.append('publicIdToDelete', LogoPublicId);
+      const uploadRes = await fetch("/api/image-upload", {
         method: "POST",
         body: formData,
       });
-      
-      const data = await uploadRes.json();
-      const photoUrl = data.url;
-      const public_ID = data.publicId;
 
+      const data = await uploadRes.json();
       if (!data.success) {
         toast.error('Image upload failed');
         setLoading(false);
         return;
       }
 
-    const response = await CreateSpace({
-      spacename: spaceName,
+      finalPhotoUrl = data.url;
+      finalPublicId = data.publicId;
+    }
+
+    const response = await UpdateSpace({
+      spacename: finalName,
       title: header,
       message: customMessage,
       questions: questions,
       color: selectedColor || customColor,
-      SpaceLogo: photoUrl,
-      imageId: public_ID,
-      rounded: isRounded
+      SpaceLogo: finalPhotoUrl!,
+      imageId: finalPublicId,
+      rounded: isRounded,
     });
+
     if (response?.success) {
       CloseButtonRef.current?.click();
-      toast.success(response?.message);
-      setLoading(false);
-    }
-    else {
+      toast.success(response.message);
+    } else {
       toast.error('Something went wrong, please try again');
-      setLoading(false);
-      setspaceName('');
-      setheader('');
-      setcustomMessage('');
-      setQuestions(['What do you honestly think about this project?','what can improve?','Anything else to share anonymously?']);
-      setselectedColor('');
-      setcustomColor('');
     }
-  }
-  
+    setLoading(false);
+  };
+
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  if (e.target.files && e.target.files.length > 0) {
-    const file = e.target.files[0];
-    
-    const url = URL.createObjectURL(file);
-    setLogoUrl(url);
-    setSpaceLogo(file);
-  }
-}
-  
+    if (e.target.files && e.target.files.length > 0) {
+      const file = e.target.files[0];
+      const url = URL.createObjectURL(file);
+      setLogoUrl(url);
+      setSpaceLogo(file);
+    }
+  };
+
   return (
-      <ResponsiveModal>
+    <ResponsiveModal>
       <form>
         <ResponsiveModalTrigger asChild>
-           <Button effect='expandIcon' icon={Pencil} iconPlacement='right'>
-              Edit Space
-            </Button>
+          <Button effect='expandIcon' icon={Pencil} iconPlacement='right'>
+            Edit Space
+          </Button>
         </ResponsiveModalTrigger>
         <ResponsiveModalContent className="grid place-items-center">
           <ResponsiveModalHeader>
-            <ResponsiveModalTitle>Create a new space</ResponsiveModalTitle>
+            <ResponsiveModalTitle>Space: {spaceName}</ResponsiveModalTitle>
             <ResponsiveModalDescription>
-              Create the feedback form as your liking and Click save when you&apos;re
-              done.
+              Update the feedback form and click save when you&apos;re done.
             </ResponsiveModalDescription>
           </ResponsiveModalHeader>
-          {showPreview ? 
-          <Preview Header={header} CustomColor={customColor} SelectedColor={selectedColor} Custommessage={customMessage} Questions={questions} LogoUrl={LogoUrl} Rounded={isRounded}/> 
-          :
-          <div className="grid gap-4">
-            <div className="grid">
-              <Label htmlFor="name-1">Space name</Label>
-              <Input id="name-1" name="name" required className="mt-3 mb-1.5 w-80 md:w-full" placeholder="Project Feedback" value={spaceName} onChange={(e)=>{setspaceName(e.target.value)}}/>
-              <p className="text-[12.5px]">Public URL is: send-opinion.vercel.app/{spaceName.toLowerCase().replaceAll(' ','-')}</p>
-            </div>
+
+          {showPreview ? (
+            <Preview
+              Header={header}
+              CustomColor={customColor}
+              SelectedColor={selectedColor}
+              Custommessage={customMessage}
+              Questions={questions}
+              LogoUrl={LogoUrl}
+              Rounded={isRounded}
+            />
+          ) : (
+            <div className="grid gap-4">
+              {/* LOGO INPUT */}
               <div className="grid gap-3">
                 <Label htmlFor="space-logo">Space logo</Label>
-                <Input id="space-logo" name="space-logo" type="file" accept="image/*" className="w-80 md:w-full" onChange={handleImageChange}/>
+                <Input id="space-logo" type="file" accept="image/*" onChange={handleImageChange} />
               </div>
+
               <div className="flex gap-3 items-center">
-                {LogoUrl? <Image src={LogoUrl} alt="Space Logo" width={100} height={100} className={`mb-3 ${isRounded ? 'rounded-full' : 'rounded-sm'}`} /> : ''}
-               
-                {LogoUrl ?<div className="flex flex-col items-center w-full gap-2">
-                  <Button onClick={()=>{setLogoUrl(undefined); setSpaceLogo(undefined)}} variant={'outline'} className="w-full"><Trash2/></Button>
-                  <div className="flex items-center gap-2">
-                  <Switch id="rounded" checked={isRounded} onCheckedChange={()=>{setisRounded(!isRounded)}} className="cursor-pointer"/>
-                  <Label htmlFor="rounded" className="text-[12.5px]">Circle</Label>
-                  </div>
-                  </div>
-                  : ''}
-
-                
-
+                {LogoUrl && (
+                  <>
+                    <Image
+                      src={LogoUrl}
+                      alt="Logo"
+                      width={100}
+                      height={100}
+                      className={`mb-3 ${isRounded ? 'rounded-full' : 'rounded-sm'}`}
+                    />
+                    <div className="flex flex-col gap-2 w-full items-center">
+                      <div className="flex items-center gap-2">
+                        <Switch id="rounded" checked={isRounded} onCheckedChange={setisRounded} />
+                        <Label htmlFor="rounded" className="text-xs">Circle</Label>
+                      </div>
+                    </div>
+                  </>
+                )}
               </div>
-            <div className="grid gap-3">
-              <Label htmlFor="username-1">Header title</Label>
-              <Input id="username-1" name="header" required className="w-80 md:w-full" placeholder="Presentation Feedback"
-              value={header} onChange={(e)=>{setheader(e.target.value)}}/>
-            </div>
-            <div className="grid gap-3">
-              <Label htmlFor="username-1">Custom message</Label>
-                <MarkdownTextarea value={customMessage} onChange={(e)=>{setcustomMessage(e.target.value)}} />
-            </div>
-              <div className={`grid gap-3 ${questions.length===0 ? 'gap-0':''}`}>
-              <Label htmlFor="username-1" className={`${questions.length===0 ? 'hidden':''}`}>Questions</Label> 
-              <div className="flex items-center gap-2 flex-col">
-              {questions.map((q, index) => (
-                <Input
-                  key={index}
-                  id={`question-${index + 1}`}
-                  name={`question-${index + 1}`}
-                  required
-                  placeholder="Add a question"
-                  className="w-80 md:w-full"
-                  value={q}
-                  onChange={(e) => {
-                    const updated = [...questions];
-                    updated[index] = e.target.value;
-                    setQuestions(updated);
-                  }}
-                />
-              ))}
+
+              {/* TITLE */}
+              <div className="grid gap-3">
+                <Label htmlFor="header">Header title</Label>
+                <Input id="header" value={header} onChange={(e) => setheader(e.target.value)} placeholder="Presentation Feedback" />
               </div>
-              <div className="flex items-center justify-between">
+
+              {/* MESSAGE */}
+              <div className="grid gap-3">
+                <Label htmlFor="message">Custom message</Label>
+                <MarkdownTextarea value={customMessage} onChange={(e) => setcustomMessage(e.target.value)} />
+              </div>
+
+              {/* QUESTIONS */}
+              <div className={`grid gap-3 ${questions.length === 0 ? 'gap-0' : ''}`}>
+                <Label htmlFor="questions" className={`${questions.length === 0 ? 'hidden' : ''}`}>Questions</Label>
+                <div className="flex flex-col gap-2">
+                  {questions.map((q, idx) => (
+                    <Input
+                      key={idx}
+                      value={q}
+                      onChange={(e) => {
+                        const newQ = [...questions];
+                        newQ[idx] = e.target.value;
+                        setQuestions(newQ);
+                      }}
+                      placeholder="Add a question"
+                    />
+                  ))}
+                </div>
+                <div className="flex justify-between items-center">
                   <Button
-                  onClick={() => {
-                    if (questions.length === 5) return;
-                    setQuestions([...questions, '']);
-                  }}
-                  variant="link"
-                  className="flex items-center justify-start cursor-pointer text-black dark:text-white hover:no-underline hover:text-primary hover:dark:text-primary"
-                >
-                  <p className="flex items-center gap-2">
-                    <CirclePlus />Add one (up to 5)
-                  </p>
-                </Button>
-
-                <Button
-                  variant="outline"
-                  size="icon"
-                  onClick={() => {
-                    if (questions.length === 0) return;
-                    setQuestions(questions.slice(0, -1));
-                  }}
-                >
-                  <Trash2 />
-                </Button>
+                    onClick={() => {
+                      if (questions.length < 5) setQuestions([...questions, '']);
+                    }}
+                    variant="link"
+                    className="text-sm"
+                  >
+                    <CirclePlus className="mr-1" /> Add one (up to 5)
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    onClick={() => {
+                      if (questions.length > 0) setQuestions(questions.slice(0, -1));
+                    }}
+                  >
+                    <Trash2 />
+                  </Button>
+                </div>
               </div>
-              
-            </div>
-            <div className="flex flex-col gap-3 mb-3">
+
+              <div className="flex flex-col gap-3 mb-3">
               <Label htmlFor="username-1">Custom button color</Label>
               <div className="flex flex-col gap-2">
                 <div className="flex gap-3.5 mb-1">
@@ -264,9 +279,10 @@ export function EditSpaceDialog() {
                       {Error ? <p className="text-red-500 text-sm">Invalid hex color</p>: ''}
               </div>
             </div>
-          </div>
-          }
-          <ResponsiveModalFooter className="w-80 md:w-full gap-3 lg:gap-0">
+            </div>
+          )}
+
+           <ResponsiveModalFooter className="w-80 md:w-full gap-3 lg:gap-0">
             <ResponsiveModalClose asChild>
               <Button ref={CloseButtonRef} variant="outline">Cancel</Button>
             </ResponsiveModalClose>
@@ -278,6 +294,6 @@ export function EditSpaceDialog() {
           </ResponsiveModalFooter>
         </ResponsiveModalContent>
       </form>
-    </ResponsiveModal>    
-  )
+    </ResponsiveModal>
+  );
 }

@@ -18,9 +18,14 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
   try {
     const formData = await request.formData();
     const file = formData.get("photo");
+    const publicIdToDelete = formData.get("publicIdToDelete");
 
     if (!file || !(file instanceof Blob)) {
       return NextResponse.json({ error: "File not found or invalid" }, { status: 400 });
+    }
+
+    if (publicIdToDelete && typeof publicIdToDelete === "string") {
+      await cloudinary.uploader.destroy(publicIdToDelete);
     }
 
     const bytes = await file.arrayBuffer();
