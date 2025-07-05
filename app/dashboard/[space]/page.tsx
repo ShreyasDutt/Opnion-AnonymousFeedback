@@ -1,25 +1,36 @@
-import { ChartLine, Pencil, Settings } from 'lucide-react'
-import Navbar from '@/components/Navbar'
-import FeedbackUi from '@/components/FeedbackUi'
-import LogoPng from '@/public/Opnion.png'
-import Image from 'next/image'
-import { Button } from '@/components/ui/button'
-import { GetSpace } from '@/app/actions/actions'
-import { notFound } from 'next/navigation'
+import { ChartLine, Settings } from 'lucide-react';
+import Navbar from '@/components/Navbar';
+import FeedbackUi from '@/components/FeedbackUi';
+import LogoPng from '@/public/Opnion.png';
+import Image from 'next/image';
+import { Button } from '@/components/ui/button';
+import { GetSpace } from '@/app/actions/actions';
+import { notFound } from 'next/navigation';
+import { EditSpaceDialog } from '@/components/EditSpaceDialog';
+import Feedback from '@/app/db/models/feedback.model';
+
+interface Feedback {
+  _id: string;
+  message: string;
+  createdAt: string;
+  updatedAt: string;
+}
 
 interface PageProps {
-  params: Promise<{
-    space: string
-  }>
+  params: {
+    space: string;
+  };
 }
 
 const Page = async ({ params }: PageProps) => {
-  const { space } = await params;
+  const { space } = params;
   const Data = await GetSpace(space);
+
   if (!Data.success) {
     return notFound();
-  } 
-const Feedbacks = Data.space?.feedbacks ?? [];
+  }
+console.log(Data);
+const Feedbacks = (Data.space?.feedbacks as unknown as Feedback[]) ?? [];
 
   return (
     <div>
@@ -35,9 +46,7 @@ const Feedbacks = Data.space?.feedbacks ?? [];
             <Button variant='outline' size='icon' effect='ringHover'>
               <ChartLine />
             </Button>
-            <Button effect='expandIcon' icon={Pencil} iconPlacement='right'>
-              Edit Space
-            </Button>
+            <EditSpaceDialog/>
             <Button variant='outline' size='icon' effect='ringHover'>
               <Settings />
             </Button>
@@ -47,7 +56,7 @@ const Feedbacks = Data.space?.feedbacks ?? [];
         <FeedbackUi feedbacks={Feedbacks} />
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Page
+export default Page;

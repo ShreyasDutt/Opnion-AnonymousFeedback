@@ -1,9 +1,14 @@
 import React from 'react';
-import { Button } from './ui/button';
-import { Trash2 } from 'lucide-react';
 import FeedbackDeleteButton from './FeedbackDeleteButton';
 
-const FeedbackUi = ({ feedbacks }: { feedbacks: any[] }) => {
+interface Feedback {
+  _id: string;
+  message: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+const FeedbackUi = ({ feedbacks }: { feedbacks: Feedback[] }) => {
   return (
     <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-7'>
       {feedbacks.map((feedback) => (
@@ -21,7 +26,7 @@ const FeedbackUi = ({ feedbacks }: { feedbacks: any[] }) => {
                 minute: '2-digit',
               })}
             </p>
-              <FeedbackDeleteButton Id={feedback._id.toString()}/>
+            <FeedbackDeleteButton Id={feedback._id.toString()} />
           </div>
           <div className='mt-2 text-sm text-muted-foreground break-words'>
             {feedback.message}

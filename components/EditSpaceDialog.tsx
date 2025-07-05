@@ -13,7 +13,7 @@ import {
 } from '@/components/ui/dialog';
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { CirclePlus, Eye, EyeClosed, Loader2, Plus, Trash2 } from "lucide-react"
+import { CirclePlus, Eye, EyeClosed, Loader2, Pencil, Plus, Trash2 } from "lucide-react"
 import { MarkdownTextarea } from "./MarkdownTextarea"
 import Preview from "./Preview";
 import { useRef, useState } from "react";
@@ -138,9 +138,8 @@ export function EditSpaceDialog() {
       <ResponsiveModal>
       <form>
         <ResponsiveModalTrigger asChild>
-          <Button className="text-white mt-5 flex py-5 gap-2">
-              <Plus />
-              Edit the space
+           <Button effect='expandIcon' icon={Pencil} iconPlacement='right'>
+              Edit Space
             </Button>
         </ResponsiveModalTrigger>
         <ResponsiveModalContent className="grid place-items-center">
