@@ -16,13 +16,7 @@ interface Feedback {
   updatedAt: string;
 }
 
-type PageProps = {
-  params: {
-    space: string;
-  };
-}
-
-const Page = async ({ params }: PageProps) => {
+const Page = async ({ params }: { params: { space: string } }) => {
   const { space } = params;
   const Data = await GetSpace(space);
 
