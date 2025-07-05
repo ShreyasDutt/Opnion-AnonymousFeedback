@@ -109,8 +109,15 @@ export function AddSpaceDialog() {
     });
     if (response?.success) {
       CloseButtonRef.current?.click();
-      toast.success(response?.message);
       setLoading(false);
+      setspaceName('');
+      setheader('');
+      setcustomMessage('');
+      setQuestions(['What do you honestly think about this project?','what can improve?','Anything else to share anonymously?']);
+      setselectedColor('');
+      setcustomColor('');
+      toast.success(response?.message);
+
     }
     else {
       toast.error('Something went wrong, please try again');

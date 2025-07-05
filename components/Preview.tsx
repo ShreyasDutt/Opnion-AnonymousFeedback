@@ -6,7 +6,6 @@ import Image from 'next/image';
 const Preview = ({Header,SelectedColor,CustomColor,Custommessage,Questions,LogoUrl,Rounded}:{Header:string,CustomColor:string,SelectedColor:string,Custommessage:string,Questions:string[],LogoUrl:string|undefined,Rounded:boolean}) => {
 
   const Color: string = CustomColor || SelectedColor || 'var(--primary)';
-  console.log(LogoUrl)
   return (
     <div className=" flex items-center justify-center p-4 w-full">
       <div className="w-full max-w-md border rounded-2xl p-4 relative">

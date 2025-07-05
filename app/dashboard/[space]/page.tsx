@@ -4,6 +4,8 @@ import FeedbackUi from '@/components/FeedbackUi'
 import LogoPng from '@/public/Opnion.png'
 import Image from 'next/image'
 import { Button } from '@/components/ui/button'
+import { GetSpace } from '@/app/actions/actions'
+import { notFound } from 'next/navigation'
 
 interface PageProps {
   params: Promise<{
@@ -12,7 +14,12 @@ interface PageProps {
 }
 
 const Page = async ({ params }: PageProps) => {
-  const { space } = await params
+  const { space } = await params;
+  const Data = await GetSpace(space);
+  if (!Data.success) {
+    return notFound();
+  } 
+const Feedbacks = Data.space?.feedbacks ?? [];
 
   return (
     <div>
@@ -37,7 +44,7 @@ const Page = async ({ params }: PageProps) => {
           </div>
         </div>
 
-        <FeedbackUi />
+        <FeedbackUi feedbacks={Feedbacks} />
       </div>
     </div>
   )

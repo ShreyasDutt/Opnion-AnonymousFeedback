@@ -19,6 +19,8 @@ const page = async({ params }: PageProps) => {
         return notFound();
       }
       const space = Data.space;
+      const Color: string = space?.color || 'var(--primary)';
+
   return (
     <div className="min-h-screen mt-10">      
         {/* Main Content */}
@@ -32,7 +34,7 @@ const page = async({ params }: PageProps) => {
                         width={80} 
                         alt='' 
                         className={`${space?.rounded ? 'rounded-full' : 'rounded-lg'} border-2 shadow-lg`}
-                        style={{ borderColor: space?.color }}
+                        style={{ borderColor: Color }}
                     />
                     <p className='lg:text-6xl text-4xl font-bold mt-5 mb-2 text-center'>{space?.title}</p>
                     <p className='text-sm text-gray-500 dark:text-gray-400 text-center max-w-2xl'>{space?.message}</p>
@@ -42,7 +44,7 @@ const page = async({ params }: PageProps) => {
                 <div className='px-6 pb-8'>
                     <div className='flex flex-col gap-2 mb-6'>
                         <p className='text-2xl font-bold'>Questions</p>
-                        <p className={`w-16 h-1 rounded-full`} style={{ backgroundColor: space?.color }}></p>
+                        <p className={`w-16 h-1 rounded-full`} style={{ backgroundColor: Color }}></p>
                     </div>
 
                     <div className='space-y-4 mb-8'>
@@ -51,7 +53,7 @@ const page = async({ params }: PageProps) => {
                                 <div className='flex items-start gap-3'>
                                     <div 
                                         className='w-2 h-2 rounded-full mt-2 flex-shrink-0'
-                                        style={{ backgroundColor: space?.color }}
+                                        style={{ backgroundColor: Color}}
                                     ></div>
                                     <p className='text-md font-semibold text-gray-800 dark:text-gray-200'>{question}</p>
                                 </div>
@@ -60,7 +62,7 @@ const page = async({ params }: PageProps) => {
                     </div>
                     
                     <div className='flex items-center justify-center'>
-                        <FeedbackForm color={space?.color || '#000'} spacename={spacename} />
+                        <FeedbackForm color={Color} spacename={spacename} />
                     </div>
                 </div>
             </div>
