@@ -16,7 +16,7 @@ interface Feedback {
   updatedAt: string;
 }
 
-interface PageProps {
+type PageProps = {
   params: {
     space: string;
   };
