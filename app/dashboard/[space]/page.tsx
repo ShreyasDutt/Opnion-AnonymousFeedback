@@ -16,27 +16,26 @@ interface Feedback {
   updatedAt: string;
 }
 
-const Page = async ({ params }: { params: { space: string } }) => {
-  const { space } = params;
+const Page = async ({ params }: { params: Promise<{ space: string }> }) => {
+  const { space } = await params;
   const Data = await GetSpace(space);
 
   if (!Data.success) {
     return notFound();
   }
 
+  const spaceData = Data.space;
+  console.log(spaceData);
+  const spacename = spaceData?.spacename || '';
+  const spaceTitle = spaceData?.title || '';
+  const spaceMessage = spaceData?.message || '';
+  const LogoUrl = spaceData?.SpaceLogo || '';
+  const colorHex = spaceData?.color || '';
+  const rounded = spaceData?.rounded || false;
+  const questions = spaceData?.questions || [];
+  const LogoId = spaceData?.imageId || '';
 
-const spaceData = Data.space;
-console.log(spaceData);
-const spacename = spaceData?.spacename || '';
-const spaceTitle = spaceData?.title || '';
-const spaceMessage = spaceData?.message || '';
-const LogoUrl = spaceData?.SpaceLogo || '';
-const colorHex = spaceData?.color || '';
-const rounded = spaceData?.rounded || false;
-const questions = spaceData?.questions || [];
-const LogoId = spaceData?.imageId || '';
-
-const Feedbacks = (Data.space?.feedbacks as unknown as Feedback[]) ?? [];
+  const Feedbacks = (Data.space?.feedbacks as unknown as Feedback[]) ?? [];
 
   return (
     <div>
