@@ -12,6 +12,7 @@ export interface ISpace extends Document {
   SpaceLogo: string;
   imageId: string;
   rounded: boolean;
+  isAcceptingFeedback: boolean;
 }
 
 const SpaceSchema = new Schema<ISpace>({
@@ -58,6 +59,10 @@ const SpaceSchema = new Schema<ISpace>({
   createdby: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
+  },
+    isAcceptingFeedback: {
+    type: Boolean,
+    default: true,
   },
 }, {
   timestamps: true,

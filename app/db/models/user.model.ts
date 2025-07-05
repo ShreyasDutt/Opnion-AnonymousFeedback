@@ -6,7 +6,6 @@ export interface IUser extends Document {
   email: string;
   firstname: string;
   spaces: Types.ObjectId[];
-  isAcceptingFeedback: boolean;
 }
 
 // Define the schema
@@ -34,10 +33,6 @@ const userSchema = new Schema<IUser>({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Space',
   }],
-  isAcceptingFeedback: {
-    type: Boolean,
-    default: true,
-  },
 }, {
   timestamps: true,
 });

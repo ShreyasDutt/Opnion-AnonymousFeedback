@@ -137,10 +137,8 @@ export const DeleteSpace = async(spaceId: string) => {
         if(foundSpace){
         await cloudinary.uploader.destroy(foundSpace.imageId);
         }
-    
         revalidatePath('/dashboard');
         return { success: true, message: 'Space deleted' };
-
     }catch(err){
         console.log(err);
         return { success: false, message: 'Something went wrong' };
@@ -161,6 +159,9 @@ export const DuplicateSpace = async(spaceId: string) => {
         await Space.create({
             spacename: FoundSpace?.spacename + '-copy',
             title: FoundSpace?.title,
+            SpaceLogo: FoundSpace?.SpaceLogo,
+            imageId: FoundSpace?.imageId,
+            rounded: FoundSpace?.rounded,
             message: FoundSpace?.message,
             questions: FoundSpace?.questions,
             color: FoundSpace?.color,
@@ -170,7 +171,7 @@ export const DuplicateSpace = async(spaceId: string) => {
         revalidatePath('/dashboard');
         return { success: true, message: 'Space duplicated' };
     } catch (error) {
-        console.log(error);
+        console.log('Duplication Error : '+error);
         return { success: false, message: 'Something went wrong' };
     }
 }
@@ -237,5 +238,26 @@ export const DeleteFeedback = async (feedbackId: string) => {
         console.log(error);
         return { success: false, message: 'Error Deleteing Feedback' };
 
+    }
+}
+
+export const UpdateSettings = async (Accepting:boolean,spacename:string) =>{
+    console.log("Update Setting !!! - "+Accepting,spacename);
+    try {
+        await dbConnect();
+        const FoundSpace = await Space.findOne({ spacename });
+        if(!FoundSpace){
+            return { success: false, message: 'Space not found' };
+        }
+        if(FoundSpace?.isAcceptingFeedback === Accepting){
+            return {success: 'same'};
+        }
+        FoundSpace.isAcceptingFeedback = Accepting;
+        await FoundSpace.save();
+        revalidatePath('/dashboard/'+spacename);
+        return { success: true, message: 'Settings Updated' };
+    }catch(error){
+        console.log(error);
+        return { success: false, message: 'Error Updating Settings' };
     }
 }

@@ -1,4 +1,4 @@
-import { ChartLine, Settings } from 'lucide-react';
+import { ChartLine, MessageCircleOff } from 'lucide-react';
 import Navbar from '@/components/Navbar';
 import FeedbackUi from '@/components/FeedbackUi';
 import LogoPng from '@/public/Opnion.png';
@@ -8,6 +8,7 @@ import { GetSpace } from '@/app/actions/actions';
 import { notFound } from 'next/navigation';
 import { EditSpaceDialog } from '@/components/EditSpaceDialog';
 import Feedback from '@/app/db/models/feedback.model';
+import { SettingsModal } from '@/components/Settings';
 
 interface Feedback {
   _id: string;
@@ -25,7 +26,8 @@ const Page = async ({ params }: { params: Promise<{ space: string }> }) => {
   }
 
   const spaceData = Data.space;
-  console.log(spaceData);
+
+  const spaceId = (spaceData?._id || '').toString();
   const spacename = spaceData?.spacename || '';
   const spaceTitle = spaceData?.title || '';
   const spaceMessage = spaceData?.message || '';
@@ -34,6 +36,8 @@ const Page = async ({ params }: { params: Promise<{ space: string }> }) => {
   const rounded = spaceData?.rounded || false;
   const questions = spaceData?.questions || [];
   const LogoId = spaceData?.imageId || '';
+  const AcceptingFlag = spaceData?.isAcceptingFeedback || false;
+
 
   const Feedbacks = (Data.space?.feedbacks as unknown as Feedback[]) ?? [];
 
@@ -52,13 +56,18 @@ const Page = async ({ params }: { params: Promise<{ space: string }> }) => {
               <ChartLine />
             </Button>
             <EditSpaceDialog spacename={spacename} title={spaceTitle} message={spaceMessage} Logourl={LogoUrl} colorHex={colorHex} rounded={rounded} question={questions} LogoId={LogoId}/>
-            <Button variant='outline' size='icon' effect='ringHover'>
-              <Settings />
-            </Button>
+            <SettingsModal accepting={AcceptingFlag} spacename={spacename} spaceId={spaceId}/>
           </div>
         </div>
+        {Feedbacks.length>0 ? <FeedbackUi feedbacks={Feedbacks} /> 
+        : 
+        <div className="flex flex-col items-center justify-center text-center mt-10 text-muted-foreground">
+          <MessageCircleOff width={150} height={150} className="mb-4 opacity-70"/>
+          <p className="text-lg font-semibold">No feedbacks yet</p>
+          <p className="text-sm mt-1">Once people start submitting, you'll see them here!</p>
+        </div>
+        }
 
-        <FeedbackUi feedbacks={Feedbacks} />
       </div>
     </div>
   );

@@ -32,16 +32,18 @@ const spaces = space?.spaces as spacesInterface[];
 
   let totalFeedbacks = 0;
   let totalViews = 0;
-  spaces?.forEach(s => {
+if (Array.isArray(spaces)) {
+  spaces.forEach(s => {
     totalFeedbacks += s.feedbacks?.length || 0;
     totalViews += s.views || 0;
   });
+}
 
   const ConversionRate = totalViews > 0 ? ((totalFeedbacks / totalViews) * 100).toFixed(1) + '%' : '0%';
 
   const data = [
     { label: 'Total Feedbacks', value: totalFeedbacks, Icon: MessageSquareQuote },
-    { label: 'Total Spaces', value: spaces?.length, Icon: Sparkle },
+    { label: 'Total Spaces', value: spaces?.length || 0, Icon: Sparkle },
     { label: 'Conversion Rate', value: ConversionRate, Icon: Percent },
   ];
 
@@ -91,7 +93,7 @@ const spaces = space?.spaces as spacesInterface[];
         <div className="mt-6 pt-6 md:px-10 md:pt-8 lg:px-40">
           <div className="mb-2 flex items-center justify-between">
             <p className="text-3xl font-bold">Spaces</p>
-            {spaces.length > 0 ? <AddSpaceDialog /> : ""}
+           {spaces?.length > 0 ? <AddSpaceDialog /> : ""}
           </div>
 
           {spaces.length > 0 ? (
