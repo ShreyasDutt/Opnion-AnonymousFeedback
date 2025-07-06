@@ -8,6 +8,7 @@ import { AddSpaceDialog } from '@/components/AddSpaceDialog'
 import { GetSpaces, GetUser } from '../actions/actions'
 import { Types } from 'mongoose'
 import Link from 'next/link'
+import { ISpace } from '../db/models/space.model'
 
 export interface spacesInterface {
   _id: string;
@@ -28,7 +29,7 @@ const page = async () => {
 const [space, userData] = await Promise.all([GetSpaces(), GetUser()]);
 const { user } = userData;
 
-const spaces = space?.spaces as spacesInterface[];
+const spaces = space?.spaces as ISpace[];
 
   let totalFeedbacks = 0;
   let totalViews = 0;
@@ -99,7 +100,7 @@ if (Array.isArray(spaces)) {
           {spaces.length > 0 ? (
             <div className="my-7 grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
               {spaces.map((space) => (
-                <div key={space._id} className="col-span-1 w-full flex flex-col justify-between bg-[#f1f5fe] dark:bg-black/30 gap-16 py-5 rounded-2xl border px-6">
+                <div key={space._id.toString()} className="col-span-1 w-full flex flex-col justify-between bg-[#f1f5fe] dark:bg-black/30 gap-16 py-5 rounded-2xl border px-6">
                   <div className="flex justify-between items-center gap-10">
                     <div className="flex items-center">
                       <Image src={space.SpaceLogo} height={50} width={50} alt="" className="mr-4 rounded-full" />
