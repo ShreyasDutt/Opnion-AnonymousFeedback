@@ -125,8 +125,8 @@ export function SettingsModal({accepting,spacename,spaceId}:{accepting:boolean,s
               <Button ref={CloseButtonRef} variant="outline">Cancel</Button>
             </ResponsiveModalClose>
             <div className="flex gap-2.5 items-end">
-            <Button type="submit" onClick={handleSubmit}>Save changes</Button>
             <DeleteAlert spaceId={spaceId}/>
+            <Button type="submit" onClick={handleSubmit}>Save changes</Button>
             </div>
             
           </ResponsiveModalFooter>

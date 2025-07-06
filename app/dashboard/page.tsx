@@ -6,44 +6,28 @@ import Image from 'next/image'
 import { SpaceDropdown } from '@/components/SpaceDropdown'
 import { AddSpaceDialog } from '@/components/AddSpaceDialog'
 import { GetSpaces, GetUser } from '../actions/actions'
-import { Types } from 'mongoose'
 import Link from 'next/link'
-
-export interface spacesInterface {
-  _id: Types.ObjectId;
-  spacename: string;
-  SpaceLogo: string;
-  rounded: boolean;
-  imageId: string;
-  title: string;
-  message: string;
-  questions: string[];
-  color: string;
-  feedbacks?: Types.ObjectId[];
-  views: number;
-  createdby: Types.ObjectId;
-}
+import { ISpace } from '../db/models/space.model'
 
 const page = async () => {
-const [space, userData] = await Promise.all([GetSpaces(), GetUser()]);
-const { user } = userData;
+  const [space, userData] = await Promise.all([GetSpaces(), GetUser()]);
+  const { user } = userData;
 
-const spaces = space?.spaces as spacesInterface[];
+  const spaces = (space?.spaces as ISpace[]) || [];
 
   let totalFeedbacks = 0;
   let totalViews = 0;
-if (Array.isArray(spaces)) {
+  
   spaces.forEach(s => {
     totalFeedbacks += s.feedbacks?.length || 0;
     totalViews += s.views || 0;
   });
-}
 
   const ConversionRate = totalViews > 0 ? ((totalFeedbacks / totalViews) * 100).toFixed(1) + '%' : '0%';
 
   const data = [
     { label: 'Total Feedbacks', value: totalFeedbacks, Icon: MessageSquareQuote },
-    { label: 'Total Spaces', value: spaces?.length || 0, Icon: Sparkle },
+    { label: 'Total Spaces', value: spaces.length, Icon: Sparkle },
     { label: 'Conversion Rate', value: ConversionRate, Icon: Percent },
   ];
 
@@ -63,7 +47,7 @@ if (Array.isArray(spaces)) {
             <p className="text-3xl font-bold">Overview</p>
           </div>
 
-          {spaces?.length > 0 ? (
+          {spaces.length > 0 ? (
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
               {data.map(({ label, value, Icon }, idx) => (
                 <div
@@ -93,7 +77,7 @@ if (Array.isArray(spaces)) {
         <div className="mt-6 pt-6 md:px-10 md:pt-8 lg:px-40">
           <div className="mb-2 flex items-center justify-between">
             <p className="text-3xl font-bold">Spaces</p>
-           {spaces?.length > 0 ? <AddSpaceDialog /> : ""}
+            {spaces.length > 0 ? <AddSpaceDialog /> : ""} {/* Fix: Remove optional chaining */}
           </div>
 
           {spaces.length > 0 ? (

@@ -3,13 +3,14 @@
 import { auth } from "@clerk/nextjs/server";
 import { dbConnect } from "../db/dbConnect"
 import Space, { ISpace } from "../db/models/space.model";
-import User from "../db/models/user.model";
+import User, { IUser } from "../db/models/user.model";
 import { revalidatePath } from "next/cache";
 import { v2 as cloudinary } from "cloudinary";
 import Feedback from "../db/models/feedback.model";
 import { Types } from "mongoose";
 import { kv } from '@vercel/kv'
 import { headers } from 'next/headers'
+
 
 cloudinary.config({
   cloud_name: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
@@ -190,20 +191,26 @@ export const GetUser = async() => {
     }
 }
 
-export const GetSpace = async(spacename: string) => {
-    try{
-        await dbConnect();
-        const FoundSpace = await Space.findOne({ spacename: spacename }).populate('feedbacks');
-        if(!FoundSpace){
-            return { success: false, message: 'Space not found' };
-        }
-        else{
-        return { success: true, space: FoundSpace };
-        }
-    }catch(err){
-        console.log(err);
-        return { success: false, message: 'Something went wrong' };
+export const GetSpace = async (spacename: string) => {
+  const { userId } = await auth()
+  try {
+    await dbConnect()
+    const FoundUser = await User.findOne({ clerkId: userId }).populate('spaces') as IUser
+    if (!FoundUser) return { success: false, message: 'User not found' }
+
+    const FoundSpace = await Space.findOne({ spacename }).populate('feedbacks')
+    if (!FoundSpace) return { success: false, message: 'Space not found' }
+
+    const isOwner = FoundUser.spaces.some((spaceId) => spaceId.equals(FoundSpace._id))
+    if (!isOwner) {
+      return { success: false, message: 'Unauthorized', space: FoundSpace }
     }
+
+    return { success: true, space: FoundSpace }
+  } catch (err) {
+    console.log(err)
+    return { success: false, message: 'Something went wrong' }
+  }
 }
 
 
@@ -240,9 +247,10 @@ export const SubmitFeedback = async (spacename: string, message: string) => {
         if (!FoundSpace) {
             return { success: false, message: 'Space not found' };
         }
-
+        if (!FoundSpace.isAcceptingFeedback) {
+            return { success: false, message: 'This feedback form is currently not accepting feedbacks' };
+        }
         const CreatedFeedback = await Feedback.create({ message });
-
         FoundSpace.feedbacks = FoundSpace.feedbacks || [];
         FoundSpace.feedbacks.push(CreatedFeedback._id as Types.ObjectId);        
         await FoundSpace.save();
