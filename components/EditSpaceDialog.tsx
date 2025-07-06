@@ -207,7 +207,7 @@ export function EditSpaceDialog({
               {/* MESSAGE */}
               <div className="grid gap-3">
                 <Label htmlFor="message">Custom message</Label>
-                <MarkdownTextarea value={customMessage} onChange={(e) => setcustomMessage(e.target.value)} />
+                <MarkdownTextarea value={customMessage} onChange={(e) => setcustomMessage(e.target.value)}/>
               </div>
 
               {/* QUESTIONS */}

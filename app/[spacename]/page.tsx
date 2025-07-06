@@ -1,6 +1,6 @@
 import React from 'react'
 import Image from 'next/image'
-import { GetSpace } from '../actions/actions'
+import { GetSpaceFeedback } from '../actions/actions'
 import { notFound } from 'next/navigation'
 import { FeedbackForm } from '@/components/FeedbackForm'
 
@@ -13,7 +13,7 @@ interface PageProps {
 const page = async({ params }: PageProps) => {
       const { spacename } = await params;
     
-      const Data = await GetSpace(spacename);
+      const Data = await GetSpaceFeedback(spacename);
 
       if(!Data.success){
         return notFound();

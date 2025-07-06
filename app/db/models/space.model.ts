@@ -1,6 +1,7 @@
 import mongoose, { Schema, Document, Types } from 'mongoose';
 
 export interface ISpace extends Document {
+  _id: Types.ObjectId;
   spacename: string;
   title: string;
   message: string;

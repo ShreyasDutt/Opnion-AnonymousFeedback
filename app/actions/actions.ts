@@ -2,12 +2,14 @@
 
 import { auth } from "@clerk/nextjs/server";
 import { dbConnect } from "../db/dbConnect"
-import Space from "../db/models/space.model";
+import Space, { ISpace } from "../db/models/space.model";
 import User from "../db/models/user.model";
 import { revalidatePath } from "next/cache";
 import { v2 as cloudinary } from "cloudinary";
 import Feedback from "../db/models/feedback.model";
 import { Types } from "mongoose";
+import { kv } from '@vercel/kv'
+import { headers } from 'next/headers'
 
 cloudinary.config({
   cloud_name: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
@@ -196,14 +198,38 @@ export const GetSpace = async(spacename: string) => {
             return { success: false, message: 'Space not found' };
         }
         else{
-        FoundSpace.views = FoundSpace.views + 1;
-        await FoundSpace.save();
         return { success: true, space: FoundSpace };
         }
     }catch(err){
         console.log(err);
         return { success: false, message: 'Something went wrong' };
     }
+}
+
+
+export const GetSpaceFeedback = async (spacename: string) => {
+  try {
+    await dbConnect()
+    const FoundSpace:ISpace | null = await Space.findOne({ spacename }).populate('feedbacks')
+    if (!FoundSpace) return { success: false, message: 'Space not found' }
+
+    const headerList = headers()
+    const ip = (await headerList).get('x-forwarded-for') || 'unknown'
+    const viewKey = `viewed:${FoundSpace._id.toString()}:${ip}`
+
+    const alreadyViewed = await kv.get(viewKey)
+
+    if (!alreadyViewed) {
+      await kv.set(viewKey, '1', { ex: 86400 })
+      FoundSpace.views += 1
+      await FoundSpace.save()
+    }
+
+    return { success: true, space: FoundSpace }
+  } catch (err) {
+    console.error(err)
+    return { success: false, message: 'Something went wrong' }
+  }
 }
 
 export const SubmitFeedback = async (spacename: string, message: string) => {
