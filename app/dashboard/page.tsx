@@ -8,10 +8,9 @@ import { AddSpaceDialog } from '@/components/AddSpaceDialog'
 import { GetSpaces, GetUser } from '../actions/actions'
 import { Types } from 'mongoose'
 import Link from 'next/link'
-import { ISpace } from '../db/models/space.model'
 
 export interface spacesInterface {
-  _id: string;
+  _id: Types.ObjectId;
   spacename: string;
   SpaceLogo: string;
   rounded: boolean;
@@ -29,7 +28,7 @@ const page = async () => {
 const [space, userData] = await Promise.all([GetSpaces(), GetUser()]);
 const { user } = userData;
 
-const spaces = space?.spaces as ISpace[];
+const spaces = space?.spaces as spacesInterface[];
 
   let totalFeedbacks = 0;
   let totalViews = 0;
