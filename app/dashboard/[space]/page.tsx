@@ -1,4 +1,4 @@
-import { ChartLine, MessageCircleOff } from 'lucide-react';
+import {  MessageCircleOff } from 'lucide-react';
 import Navbar from '@/components/Navbar';
 import FeedbackUi from '@/components/FeedbackUi';
 import Image from 'next/image';
