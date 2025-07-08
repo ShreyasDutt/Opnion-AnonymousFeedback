@@ -20,7 +20,7 @@ const page = async () => {
   
   spaces.forEach(s => {
     totalFeedbacks += s.feedbacks?.length || 0;
-    totalViews += s.views || 0;
+    totalViews += s.views.length || 0;
   });
 
   const ConversionRate = totalViews > 0 ? ((totalFeedbacks / totalViews) * 100).toFixed(1) + '%' : '0%';
@@ -94,7 +94,7 @@ const page = async () => {
                     </div>
                   </div>
                   <div className="flex items-center justify-between text-gray-400 font-medium px-1">
-                    <p>Views: {space.views}</p>
+                    <p>Views: {space.views.length}</p>
                     <p>Feedbacks: {space.feedbacks?.length || 0}</p>
                   </div>
                 </div>

@@ -10,6 +10,7 @@ import Feedback from "../db/models/feedback.model";
 import { Types } from "mongoose";
 import { kv } from '@vercel/kv'
 import { headers } from 'next/headers'
+import View from "../db/models/view.model";
 
 
 cloudinary.config({
@@ -228,7 +229,8 @@ export const GetSpaceFeedback = async (spacename: string) => {
 
     if (!alreadyViewed) {
       await kv.set(viewKey, '1', { ex: 86400 })
-      FoundSpace.views += 1
+      const CreatedView = await View.create({ space: FoundSpace._id })
+      FoundSpace.views.push(CreatedView._id)
       await FoundSpace.save()
     }
 

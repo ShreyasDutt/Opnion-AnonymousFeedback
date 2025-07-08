@@ -8,7 +8,7 @@ export interface ISpace extends Document {
   questions: string[];
   color: string;
   feedbacks?: Types.ObjectId[];
-  views: number;
+  views: Types.ObjectId[];
   createdby: Types.ObjectId;
   SpaceLogo: string;
   imageId: string;
@@ -53,10 +53,10 @@ const SpaceSchema = new Schema<ISpace>({
     type: String,
     default: '',
   },
-  views: {
-    type: Number,
-    default: 0,
-  },
+  views: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'View',
+  }],
   createdby: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',

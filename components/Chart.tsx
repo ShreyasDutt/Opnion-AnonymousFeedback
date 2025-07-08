@@ -2,14 +2,16 @@
 import React from 'react'
 import { Button } from './ui/button'
 import { ChartLine } from 'lucide-react'
-import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 
 export const ChartButton = ({spacename}:{spacename:string}) => {
-    const router = useRouter();
     return (
-                    <Button variant='outline' size='icon' effect='ringHover' onClick={()=>{router.push('/analytics/'+spacename)}}>
-                      <ChartLine />
-                    </Button>
+      <Link href={'/analytics/'+spacename}>
+          <Button variant='outline' size='icon' effect='ringHover'>
+              <ChartLine />
+          </Button>
+      </Link>
+
     )
 }
 
