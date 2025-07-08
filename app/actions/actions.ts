@@ -7,7 +7,7 @@ import User, { IUser } from "../db/models/user.model";
 import { revalidatePath } from "next/cache";
 import { v2 as cloudinary } from "cloudinary";
 import Feedback from "../db/models/feedback.model";
-import { Types } from "mongoose";
+import mongoose, { Types } from "mongoose";
 import { kv } from '@vercel/kv'
 import { headers } from 'next/headers'
 import View from "../db/models/view.model";
@@ -297,3 +297,42 @@ export const UpdateSettings = async (Accepting:boolean,spacename:string) =>{
         return { success: false, message: 'Error Updating Settings' };
     }
 }
+
+type ViewDataPoint = {
+  date: string;
+  views: number;
+};
+
+type GetDailyViewsResponse = ViewDataPoint[] | { success: false; message: string };
+
+export const getDailyViews = async (spacename: string): Promise<GetDailyViewsResponse> => {
+  await dbConnect();
+  const FoundSpace = await Space.findOne({ spacename });
+  if (!FoundSpace) {
+    return { success: false, message: 'Space not found' };
+  }
+
+  const result = await View.aggregate([
+    {
+      $match: {
+        space: new mongoose.Types.ObjectId(FoundSpace._id),
+      },
+    },
+    {
+      $group: {
+        _id: {
+          $dateToString: { format: '%Y-%m-%d', date: '$viewedAt' },
+        },
+        views: { $sum: 1 },
+      },
+    },
+    {
+      $sort: { _id: 1 },
+    },
+  ]);
+
+  return result.map((entry) => ({
+    date: entry._id as string,
+    views: entry.views as number,
+  }));
+};
