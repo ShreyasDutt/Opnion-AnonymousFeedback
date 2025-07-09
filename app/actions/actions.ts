@@ -19,6 +19,13 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 })
 
+interface GetDailyViewsResponseItem {
+  date: string;
+  views: number;
+  feedbacks: number;
+}
+
+type GetDailyViewsResponse = GetDailyViewsResponseItem[];
 
 export interface SpaceInterface {
     spacename: string;
@@ -298,41 +305,76 @@ export const UpdateSettings = async (Accepting:boolean,spacename:string) =>{
     }
 }
 
-type ViewDataPoint = {
-  date: string;
-  views: number;
-};
 
-type GetDailyViewsResponse = ViewDataPoint[] | { success: false; message: string };
 
-export const getDailyViews = async (spacename: string): Promise<GetDailyViewsResponse> => {
+export const getDailyViews = async (
+  spacename: string
+): Promise<GetDailyViewsResponse | { success: false; message: string }> => {
   await dbConnect();
-  const FoundSpace = await Space.findOne({ spacename });
+
+  const FoundSpace = await Space.findOne({ spacename }).populate("feedbacks");
+
   if (!FoundSpace) {
-    return { success: false, message: 'Space not found' };
+    return { success: false, message: "Space not found" };
   }
 
-  const result = await View.aggregate([
+  const spaceId = new mongoose.Types.ObjectId(FoundSpace._id);
+
+  const viewsAgg = await View.aggregate([
+    { $match: { space: spaceId } },
+    {
+      $group: {
+        _id: {
+          $dateToString: { format: "%Y-%m-%d", date: "$viewedAt" },
+        },
+        views: { $sum: 1 },
+      },
+    },
+    { $sort: { _id: 1 } },
+  ]);
+
+  const feedbackIds = FoundSpace.feedbacks || [];
+  const feedbackAgg = await Feedback.aggregate([
     {
       $match: {
-        space: new mongoose.Types.ObjectId(FoundSpace._id),
+        _id: { $in: feedbackIds.map((id) => new mongoose.Types.ObjectId(id)) },
       },
     },
     {
       $group: {
         _id: {
-          $dateToString: { format: '%Y-%m-%d', date: '$viewedAt' },
+          $dateToString: { format: "%Y-%m-%d", date: "$createdAt" },
         },
-        views: { $sum: 1 },
+        feedbacks: { $sum: 1 },
       },
     },
-    {
-      $sort: { _id: 1 },
-    },
+    { $sort: { _id: 1 } },
   ]);
 
-  return result.map((entry) => ({
-    date: entry._id as string,
-    views: entry.views as number,
-  }));
+  // Combine results by date
+  const dataMap: Record<string, GetDailyViewsResponseItem> = {};
+
+  for (const entry of viewsAgg) {
+    dataMap[entry._id] = {
+      date: entry._id,
+      views: entry.views,
+      feedbacks: 0,
+    };
+  }
+
+  for (const entry of feedbackAgg) {
+    if (!dataMap[entry._id]) {
+      dataMap[entry._id] = {
+        date: entry._id,
+        views: 0,
+        feedbacks: entry.feedbacks,
+      };
+    } else {
+      dataMap[entry._id].feedbacks = entry.feedbacks;
+    }
+  }
+
+  return Object.values(dataMap).sort((a, b) =>
+    a.date.localeCompare(b.date)
+  );
 };
