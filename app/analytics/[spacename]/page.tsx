@@ -4,15 +4,10 @@ import Navbar from '@/components/Navbar'
 import { Eye, MessageSquareQuote, Percent, ThumbsUp } from 'lucide-react'
 import React from 'react'
 
-interface PageProps {
-  params: {
-    spacename: string
-  }
-}
 
-const page = async ({ params }: PageProps) => {
-  const { spacename } = params
-
+const page = async ({ params }: { params: Promise<{ spacename: string }> }) => {
+  const { spacename } = await params;
+  
   const [Chartdata, SpaceData] = await Promise.all([
     getDailyViews(spacename),
     GetSpace(spacename),
