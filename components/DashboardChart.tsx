@@ -17,10 +17,21 @@
 
   export const DashboardStackedChart = ({ chartdata }: { chartdata: ChartData }) => {
     const data = chartdata.length > 0 ? chartdata : [
-      { date: '2025-07-08', views: 2, feedbacks: 3 },
-      { date: '2025-07-09', views: 5, feedbacks: 1 },
-      { date: '2025-07-10', views: 4, feedbacks: 2 },
-      { date: '2025-07-11', views: 7, feedbacks: 3 },
+ { date: Date.now(), views: 0, feedbacks: 0 },
+//   { date: '2025-03-18', views: 5, feedbacks: 2 },
+//   { date: '2025-04-02', views: 8, feedbacks: 3 },
+//   { date: '2025-04-15', views: 6, feedbacks: 1 },
+//   { date: '2025-05-01', views: 10, feedbacks: 4 },
+//   { date: '2025-05-11', views: 7, feedbacks: 2 },
+//   { date: '2025-05-27', views: 4, feedbacks: 0 },
+//   { date: '2025-06-05', views: 9, feedbacks: 5 },
+//   { date: '2025-06-18', views: 6, feedbacks: 1 },
+//   { date: '2025-06-25', views: 5, feedbacks: 3 },
+//   { date: '2025-07-01', views: 3, feedbacks: 2 },
+//   { date: '2025-07-08', views: 2, feedbacks: 3 },
+//   { date: '2025-07-09', views: 5, feedbacks: 1 },
+//   { date: '2025-07-10', views: 4, feedbacks: 2 },
+//   { date: '2025-07-11', views: 7, feedbacks: 3 },
     ]
 
     return (
@@ -28,8 +39,8 @@
         <ResponsiveContainer width="100%" height="100%">
           <BarChart
             data={data}
-            margin={{ top: 20, right: 30, left: 0, bottom: 0 }}
-            barCategoryGap="30%"
+            margin={{ top: 0, right: 0, left: 0, bottom: 0 }}
+            barCategoryGap="20%"
           >
             <defs>
               <linearGradient id="viewsGradient" x1="0" y1="0" x2="0" y2="1">
