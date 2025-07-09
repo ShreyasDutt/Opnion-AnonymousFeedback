@@ -1,5 +1,5 @@
 import { getDailyViews } from '@/app/actions/actions'
-import { ChartBarViews } from '@/components/ChartInteractive'
+import { DashboardChart } from '@/components/DashboardChart'
 import Navbar from '@/components/Navbar'
 import React from 'react'
 
@@ -22,7 +22,7 @@ const page = async({ params }: PageProps) => {
             <Navbar/>
         </div>
         <div className='mt-10 p-20'>
-           <ChartBarViews ChartData={Chartdata} />
+          <DashboardChart chartdata={Chartdata}/>
         </div>
     </div>
   )
