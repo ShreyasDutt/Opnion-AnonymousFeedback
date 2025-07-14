@@ -9,7 +9,6 @@ import Feedback from '@/app/db/models/feedback.model';
 import { SettingsModal } from '@/components/Settings';
 import { ChartButton } from '@/components/Chart';
 import AiResponse from '@/components/AiResponse';
-import AiModal from '@/components/AiModal';
 
 interface Feedback {
   _id: string;
@@ -50,7 +49,6 @@ const Page = async ({ params }: { params: Promise<{ space: string }> }) => {
       <Navbar />
       <div className='flex flex-col py-10 px-6 gap-3'>
         <AiResponse prompt={FeedbackMessages}/>
-        <AiModal/>
         <div className='flex gap-3 justify-between items-start'>
           <div className='flex items-center gap-2'>
             <Image src={LogoUrl} height={40} width={40} alt='' className='rounded-full' />
