@@ -13,6 +13,7 @@ export interface ISpace extends Document {
   SpaceLogo: string;
   imageId: string;
   rounded: boolean;
+  isDuplicated: boolean;
   isAcceptingFeedback: boolean;
 }
 
@@ -20,6 +21,10 @@ const SpaceSchema = new Schema<ISpace>({
   spacename: {
     type: String,
     required: true,
+  },
+  isDuplicated:{
+    type: Boolean,
+    default: false,
   },
   title: {
     type: String,

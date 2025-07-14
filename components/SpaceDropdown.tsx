@@ -36,7 +36,7 @@ export function SpaceDropdown({spaceId,spaceName}:{spaceId:string,spaceName:stri
     }
 
     const CopyLinkhandler = async () => {
-      navigator.clipboard.writeText('http://localhost:3000/dashboard/' + spaceName).then(()=>{
+      navigator.clipboard.writeText('https://send-opinion.vercel.app/' + spaceName).then(()=>{
         toast.success('Link copied to clipboard');
       }).catch(()=>{
         toast.error('Failed to copy link');

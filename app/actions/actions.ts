@@ -157,18 +157,24 @@ export const DeleteSpace = async(spaceId: string) => {
 }
 
 export const DuplicateSpace = async(spaceId: string) => {
+    const { userId } = await auth();
     try {
         await dbConnect();
         const FoundSpace = await Space.findById(spaceId);
-        if(FoundSpace?.spacename.endsWith('-copy')){
+        if(FoundSpace?.isDuplicated){
             return { success: false, message: "Cant duplicate a duplicated space" };
         }
         const DuplicateExists = await Space.findOne({ spacename: FoundSpace?.spacename + '-copy' });
-        if (DuplicateExists) {
+        if (DuplicateExists?.isDuplicated) {
             return { success: false, message: 'Space can be duplicated only once' };
         }
-        await Space.create({
+        const FoundUser = await User.findOne({ clerkId: userId });
+        if (!FoundUser) {
+            return { success: false, message: 'User not found' };
+        }
+        const DuplicatedSpace = await Space.create({
             spacename: FoundSpace?.spacename + '-copy',
+            isDuplicated: true,
             title: FoundSpace?.title,
             SpaceLogo: FoundSpace?.SpaceLogo,
             imageId: FoundSpace?.imageId,
@@ -179,6 +185,8 @@ export const DuplicateSpace = async(spaceId: string) => {
             createdby: FoundSpace?.createdby,
             feedbacks: FoundSpace?.feedbacks,
         })
+        FoundUser.spaces.push(DuplicatedSpace._id);
+        await FoundUser.save();
         revalidatePath('/dashboard');
         return { success: true, message: 'Space duplicated' };
     } catch (error) {
