@@ -8,10 +8,15 @@ import { Textarea } from './ui/textarea'
 export const AiResponse = ({ prompt }: { prompt: string }) => {
 
 
-    const [data, setdata] = useState(null);
+    const [data, setdata] = useState<string | null>(null);
+
     console.log('Prompt received in AiResponse:', prompt)
+    
   useEffect(() => {
-    if (prompt.length === 0) return;
+    if (prompt.length === 0){
+        setdata('No Feedbacks yet to summarize 💔🥀');
+        return 
+    };
 
     const handleAiResponse = async () => {
       try {
