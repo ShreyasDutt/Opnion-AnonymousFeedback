@@ -10,8 +10,6 @@ type FeedbackId = {
 }
 
 const FeedbackDeleteButton = ({Id}:FeedbackId) => {
-    console.log(Id);
-
     const handleDelete = async () => {
         try{
             const res = await DeleteFeedback(Id);
