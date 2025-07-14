@@ -235,7 +235,7 @@ export const GetSpaceFeedback = async (spacename: string) => {
     const alreadyViewed = await kv.get(viewKey)
 
     if (!alreadyViewed) {
-      await kv.set(viewKey, '1', { ex: 86400 })
+      await kv.set(viewKey, '1', { ex: 21600 })
       const CreatedView = await View.create({ space: FoundSpace._id })
       FoundSpace.views.push(CreatedView._id)
       await FoundSpace.save()

@@ -17,7 +17,8 @@ const Preview = ({Header,SelectedColor,CustomColor,Custommessage,Questions,LogoU
         {/* Logo */}
         <div className="flex justify-center mt-6 mb-6">
           {LogoUrl? 
-<Image src={LogoUrl} alt="Space Logo" width={100} height={100} className={`mb-3 ${Rounded ? 'rounded-full' : 'rounded-sm'}`} />          : 
+          <Image src={LogoUrl} alt="Space Logo" width={100} height={100} className={`mb-3 border-2 shadow-lg ${Rounded ? 'rounded-full' : 'rounded-sm'}`} style={{ borderColor: Color }}/>          
+          : 
           <div className="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center relative">
             <div className="w-8 h-8 bg-gray-800 rounded-full"></div>
             <div className="absolute top-2 right-2 w-3 h-3 bg-blue-800 rounded-full"></div>

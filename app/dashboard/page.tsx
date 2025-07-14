@@ -77,7 +77,7 @@ const page = async () => {
         <div className="mt-6 pt-6 md:px-10 md:pt-8 lg:px-40">
           <div className="mb-2 flex items-center justify-between">
             <p className="text-3xl font-bold">Spaces</p>
-            {spaces.length > 0 ? <AddSpaceDialog /> : ""} {/* Fix: Remove optional chaining */}
+            {spaces.length > 0 ? <AddSpaceDialog /> : ""}
           </div>
 
           {spaces.length > 0 ? (

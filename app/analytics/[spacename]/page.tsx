@@ -1,7 +1,9 @@
 import { getDailyViews, GetSpace } from '@/app/actions/actions'
 import { DashboardStackedChart } from '@/components/DashboardChart'
 import Navbar from '@/components/Navbar'
-import { Eye, MessageSquareQuote, Percent, ThumbsUp } from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import { ArrowLeftIcon, Eye, MessageSquareQuote, Percent, ThumbsUp } from 'lucide-react'
+import Link from 'next/link'
 import React from 'react'
 
 
@@ -36,6 +38,12 @@ const page = async ({ params }: { params: Promise<{ spacename: string }> }) => {
     <div>
       <Navbar />
       <div className="px-6 md:px-20 py-10 space-y-6">
+        <Link href={'/dashboard/'+spacename} className='flex items-center justify-start'>
+            <Button>
+            <ArrowLeftIcon className="mr-2" />
+              Back to Space
+          </Button>
+        </Link>
         <div className="space-y-1">
           <h2 className="text-xl md:text-2xl font-semibold text-foreground">
             Engagement Overview
