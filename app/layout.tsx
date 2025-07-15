@@ -10,10 +10,31 @@ import { Toaster } from '@/components/ui/sonner'
 const manrope = Manrope({ subsets: ['latin'] })
 
 
-export const metadata: Metadata = {
-  title: 'Opinion',
-  description: 'Say it. Anonymously.',
-}
+export const metadata = {
+  title: "Opinion",
+  description: "Say it. Anonymously.",
+  openGraph: {
+    title: "Opinion",
+    description: "Collect honest, anonymous feedback effortlessly.",
+    url: "https://send-opinion.vercel.app",
+    siteName: "Opinion",
+    images: [
+      {
+        url: "/opengraph-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Opinion : Anonymous Feedback App",
+      },
+    ],
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Opinion",
+    description: "Collect honest, anonymous feedback effortlessly.",
+    images: ["/opengraph-image.png"],
+  },
+};
 
 export default function RootLayout({
   children,
