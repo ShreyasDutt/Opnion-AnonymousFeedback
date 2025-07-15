@@ -56,9 +56,9 @@ export const AiResponse = ({ prompt }: { prompt: string }) => {
             </ResponsiveModalDescription>
             {data ? <ReactMarkdown
             components={{
-              h2: ({ node, ...props }) => <h2 className="text-lg text-slate-900 dark:text-gray-300 my-2 text-start" {...props} />,
-              ul: ({ node, ...props }) => <ul className="list-disc text-slate-900 dark:text-gray-300 pl-5 text-start" {...props} />,
-              li: ({ node, ...props }) => <li className="mb-1 text-start" {...props} />
+              h2: ({...props }) => <h2 className="text-lg text-slate-900 dark:text-gray-300 my-2 text-start" {...props} />,
+              ul: ({...props }) => <ul className="list-disc text-slate-900 dark:text-gray-300 pl-5 text-start" {...props} />,
+              li: ({...props }) => <li className="mb-1 text-start" {...props} />
             }}
             >{data || 'No data'}</ReactMarkdown> : <Loader2 className="animate-spin size-6 mx-auto mt-10" />}
           </ResponsiveModalHeader>

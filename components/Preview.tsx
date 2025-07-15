@@ -36,10 +36,10 @@ const Preview = ({Header,SelectedColor,CustomColor,Custommessage,Questions,LogoU
         <p className="text-center mb-8">
           {Custommessage?<ReactMarkdown
             components={{
-              h2: ({ node, ...props }) => <h2 className="text-lg text-gray-300 my-2 text-start" {...props} />,
-              ul: ({ node, ...props }) => <ul className="list-disc text-gray-300 pl-5 text-start" {...props} />,
-              li: ({ node, ...props }) => <li className="mb-1 text-start" {...props} />,
-              p: ({ node, ...props }) => <p className="mb-1 text-start" {...props} />,
+              h2: ({...props }) => <h2 className="text-lg text-gray-300 my-2 text-start" {...props} />,
+              ul: ({...props }) => <ul className="list-disc text-gray-300 pl-5 text-start" {...props} />,
+              li: ({...props }) => <li className="mb-1 text-start" {...props} />,
+              p: ({...props }) => <p className="mb-1 text-start" {...props} />,
             }}
           >{Custommessage}</ReactMarkdown> : "Your custom message goes here..."}
         </p>
