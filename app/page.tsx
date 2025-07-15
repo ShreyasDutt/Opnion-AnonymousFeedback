@@ -8,6 +8,7 @@ import { RiOrganizationChart } from 'react-icons/ri'
 import Link from 'next/link'
 import Footer from '@/components/Footer'
 import AutoScrollButton from '@/components/AutoScrollButton'
+import { AuroraText } from '@/components/magicui/aurora-text'
 
 const page = () => {
   return (
@@ -20,7 +21,19 @@ const page = () => {
               <Sparkles className="w-4 h-4" />
             <span className="text-sm font-medium">Real-time Feedback</span>
             </div>
-            <p className='font-bold text-5xl text-center md:text-left lg:text-8xl'>Get honest feedback Anonymously.</p>
+            <p className='font-bold text-5xl text-center md:text-left lg:text-8xl'>Get honest feedback <AuroraText
+              colors={[
+              'var(--chart-5)',
+              'var(--chart-4)',
+              'var(--chart-3)',
+              'var(--chart-2)',
+              'var(--chart-1)',
+            ]}
+            speed={2}
+          >
+            Anonymously.
+          </AuroraText>
+          </p>
             <p className='md:text-left text-center mt-6 text-wrap text-sm md:w-90 md:text-xl lg:w-2xl'>Opinion helps teams, creators, and individuals gather real feedback without fear or filters.</p>
             
               <div className='flex gap-2 mt-5 items-center justify-center'>

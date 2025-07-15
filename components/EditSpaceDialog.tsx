@@ -98,7 +98,7 @@ export function EditSpaceDialog({
     if (SpaceLogo) {
       const formData = new FormData();
       formData.append('photo', SpaceLogo);
-       formData.append('publicIdToDelete', LogoPublicId);
+      formData.append('publicIdToDelete', LogoPublicId);
       const uploadRes = await fetch("/api/image-upload", {
         method: "POST",
         body: formData,
@@ -148,9 +148,7 @@ export function EditSpaceDialog({
     <ResponsiveModal>
       <form>
         <ResponsiveModalTrigger asChild>
-          <Button effect='expandIcon' icon={Pencil} iconPlacement='right'>
-            Edit Space
-          </Button>
+          <Button icon={Pencil} iconPlacement='right'>Edit Space</Button>
         </ResponsiveModalTrigger>
         <ResponsiveModalContent className="grid place-items-center">
           <ResponsiveModalHeader>
@@ -171,11 +169,11 @@ export function EditSpaceDialog({
               Rounded={isRounded}
             />
           ) : (
-            <div className="grid gap-4">
+            <div className="grid gap-4 w-80 md:w-full">
               {/* LOGO INPUT */}
               <div className="grid gap-3">
                 <Label htmlFor="space-logo">Space logo</Label>
-                <Input id="space-logo" type="file" accept="image/*" onChange={handleImageChange} />
+                <Input id="space-logo" type="file" accept="image/*" onChange={handleImageChange} className="w-full" />
               </div>
 
               <div className="flex gap-3 items-center">
@@ -201,23 +199,24 @@ export function EditSpaceDialog({
               {/* TITLE */}
               <div className="grid gap-3">
                 <Label htmlFor="header">Header title</Label>
-                <Input id="header" value={header} onChange={(e) => setheader(e.target.value)} placeholder="Presentation Feedback" />
+                <Input id="header" className="w-full" value={header} onChange={(e) => setheader(e.target.value)} placeholder="Presentation Feedback" />
               </div>
 
               {/* MESSAGE */}
               <div className="grid gap-3">
                 <Label htmlFor="message">Custom message</Label>
-                <MarkdownTextarea value={customMessage} onChange={(e) => setcustomMessage(e.target.value)}/>
+                  <MarkdownTextarea value={customMessage} onChange={(e) => setcustomMessage(e.target.value)} />
               </div>
 
               {/* QUESTIONS */}
               <div className={`grid gap-3 ${questions.length === 0 ? 'gap-0' : ''}`}>
                 <Label htmlFor="questions" className={`${questions.length === 0 ? 'hidden' : ''}`}>Questions</Label>
-                <div className="flex flex-col gap-2">
+                <div className="flex flex-col gap-2 w-full">
                   {questions.map((q, idx) => (
                     <Input
                       key={idx}
                       value={q}
+                      className="w-full"
                       onChange={(e) => {
                         const newQ = [...questions];
                         newQ[idx] = e.target.value;
@@ -249,48 +248,58 @@ export function EditSpaceDialog({
                 </div>
               </div>
 
+              {/* COLORS */}
               <div className="flex flex-col gap-3 mb-3">
-              <Label htmlFor="username-1">Custom button color</Label>
-              <div className="flex flex-col gap-2">
-                <div className="flex gap-3.5 mb-1">
-              {colors.map((color)=>{
-                  return (
-                    <Button key={color.id} onClick={()=>{
-                      if (selectedColor===color.color) {
-                        setError(false);
-                        setcustomColor('');
-                        setselectedColor('');
-                        return;
-                      }
-                      setError(false);
-                      setcustomColor('');
-                      setselectedColor(color.color);
-                    }} style={{ backgroundColor: color.color }} className={`p-4 md:p-5 ${selectedColor===color.color ? 'ring-3 ring-primary':''}`}></Button>
-                  )
-                })}
-                </div>
-                <Input id="username-1" name="color" placeholder="Custom color #ffffff" className="w-80 md:w-full" value={customColor} onChange={
-                  (e)=>{
+                <Label htmlFor="color">Custom button color</Label>
+                <div className="flex flex-col gap-2">
+                  <div className="flex gap-3.5 mb-1">
+                    {colors.map((color) => (
+                      <Button
+                        key={color.id}
+                        onClick={() => {
+                          if (selectedColor === color.color) {
+                            setError(false);
+                            setcustomColor('');
+                            setselectedColor('');
+                            return;
+                          }
+                          setError(false);
+                          setcustomColor('');
+                          setselectedColor(color.color);
+                        }}
+                        style={{ backgroundColor: color.color }}
+                        className={`p-4 md:p-5 ${selectedColor === color.color ? 'ring-3 ring-primary' : ''}`}
+                      />
+                    ))}
+                  </div>
+                  <Input
+                    id="color"
+                    name="color"
+                    placeholder="Custom color #ffffff"
+                    className="w-full"
+                    value={customColor}
+                    onChange={(e) => {
                       setselectedColor('');
                       setcustomColor(e.target.value);
                       checkValidHex(e.target.value);
-                    }
-                  }/>
-                      {Error ? <p className="text-red-500 text-sm">Invalid hex color</p>: ''}
+                    }}
+                  />
+                  {Error && <p className="text-red-500 text-sm">Invalid hex color</p>}
+                </div>
               </div>
-            </div>
             </div>
           )}
 
-           <ResponsiveModalFooter className="w-80 md:w-full gap-3 lg:gap-0">
+          <ResponsiveModalFooter className="w-80 md:w-full gap-3 lg:gap-0">
             <ResponsiveModalClose asChild>
               <Button ref={CloseButtonRef} variant="outline">Cancel</Button>
             </ResponsiveModalClose>
-            <Button variant={"outline"} onClick={()=>{setshowPreview(!showPreview)}}>
-            {showPreview ? <p className="flex items-center gap-2">Close preview <EyeClosed/></p>:<p className="flex items-center gap-2">Preview<Eye /></p>}
+            <Button variant="outline" onClick={() => setshowPreview(!showPreview)}>
+              {showPreview ? <p className="flex items-center gap-2">Close preview <EyeClosed /></p> : <p className="flex items-center gap-2">Preview <Eye /></p>}
             </Button>
             <Button type="submit" onClick={handleSubmit}>
-              {loading ? <Loader2 className="animate-spin size-4 self-center" /> : 'Save changes'}</Button>
+              {loading ? <Loader2 className="animate-spin size-4 self-center" /> : 'Save changes'}
+            </Button>
           </ResponsiveModalFooter>
         </ResponsiveModalContent>
       </form>

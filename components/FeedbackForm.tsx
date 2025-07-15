@@ -88,7 +88,7 @@ export function FeedbackForm({ color,spacename }: { color: string, spacename: st
                 ref={CloseButtonRef}
                 variant="outline"
               >
-                Cancel
+                <p className="text-white">Cancel</p>
               </Button>
             </ResponsiveModalClose>
 
@@ -97,7 +97,7 @@ export function FeedbackForm({ color,spacename }: { color: string, spacename: st
               type="submit"
               onClick={handleSubmit}
             >
-              {loading ? <Loader2 className="animate-spin size-4 self-center" /> : 'Save changes'}
+              {loading ? <Loader2 className="animate-spin size-4 self-center" /> : 'Submit Feedback'}
             </Button>
           </ResponsiveModalFooter>
         </ResponsiveModalContent>

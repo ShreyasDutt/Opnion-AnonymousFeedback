@@ -55,6 +55,9 @@ export function SpaceDropdown({spaceId,spaceName}:{spaceId:string,spaceName:stri
         <DropdownMenuItem onClick={() => router.push(`/dashboard/${spaceName}`)}>
           Manage feedbacks
         </DropdownMenuItem>
+        <DropdownMenuItem onClick={() => window.open(`/${spaceName}`, '_blank')}>
+          Feedback form
+        </DropdownMenuItem>
         <DropdownMenuItem onClick={() => CopyLinkhandler()}>
           Get the link
         </DropdownMenuItem>
