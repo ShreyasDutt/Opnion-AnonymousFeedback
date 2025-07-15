@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     siteName: "Opinion",
     images: [
       {
-        url: "/opengraph-image.png",
+        url: "https://send-opinion.vercel.app/opengraph-image.png",
         width: 1200,
         height: 630,
         alt: "Opinion : Anonymous Feedback App",
@@ -32,7 +32,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Opinion",
     description: "Collect honest, anonymous feedback effortlessly.",
-    images: ["/opengraph-image.png"],
+    images: ["https://send-opinion.vercel.app/opengraph-image.png"],
   },
 };
 
