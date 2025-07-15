@@ -10,7 +10,7 @@ import { Toaster } from '@/components/ui/sonner'
 const manrope = Manrope({ subsets: ['latin'] })
 
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "Opinion",
   description: "Say it. Anonymously.",
   openGraph: {
