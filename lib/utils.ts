@@ -9,7 +9,7 @@ export function cn(...inputs: ClassValue[]) {
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || '');
 
 export const runGemini = async (prompt: string) => {
-  const model = genAI.getGenerativeModel({ model: 'gemma-3n-e4b-it' });
+  const model = genAI.getGenerativeModel({ model: 'gemma-3-1b-it' });
 
   const result = await model.generateContent(prompt);
   const response = await result.response;

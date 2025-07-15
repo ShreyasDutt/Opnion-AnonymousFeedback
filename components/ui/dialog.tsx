@@ -39,7 +39,7 @@ const ResponsiveModalVariants = cva(
     variants: {
       side: {
         top: 'inset-x-0 top-0 border-b rounded-b-xl items-center justify-center max-h-full lg:h-fit data-[state=closed]:slide-out-to-top data-[state=open]:slide-in-from-top md:h-full',
-        topSettings: 'inset-x-0 top-0 border-b rounded-b-xl items-center justify-center data-[state=closed]:slide-out-to-top data-[state=open]:slide-in-from-top h-screen',
+        topSettings: 'overflow-x-hidden inset-x-0 top-0 border-b rounded-b-xl items-center justify-center data-[state=closed]:slide-out-to-top data-[state=open]:slide-in-from-top h-screen',
         bottom:
           'inset-x-0 bottom-0 border-t lg:h-fit max-h-[80dvh] rounded-t-xl data-[state=closed]:slide-out-to-bottom data-[state=open]:slide-in-from-bottom',
         left: 'inset-y-0 left-0 h-full lg:h-fit w-3/4 border-r rounded-r-xl data-[state=closed]:slide-out-to-left data-[state=open]:slide-in-from-left sm:max-w-sm',

@@ -60,7 +60,7 @@ export function DeleteAlert({spaceId}:{spaceId:string}) {
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-            <form onSubmit={(e)=>{
+            <form className="flex items-start justify-end" onSubmit={(e)=>{
                 e.preventDefault();
                 submitHandler();
             }}>

@@ -56,6 +56,7 @@ const Page = async ({ params }: { params: Promise<{ space: string }> }) => {
           </div>
 
           <div className='flex gap-3 items-center'>
+            
             <ChartButton spacename={spacename}/>
             <EditSpaceDialog spacename={spacename} title={spaceTitle} message={spaceMessage} Logourl={LogoUrl} colorHex={colorHex} rounded={rounded} question={questions} LogoId={LogoId}/>
             <SettingsModal accepting={AcceptingFlag} spacename={spacename} spaceId={spaceId}/>

@@ -11,22 +11,38 @@ export async function POST(req: NextRequest) {
     }
 
     const reply = await runGemini(
-    `Please analyze the following review and summarize it into two clear sections:
+        `You are a review analyzer. Analyze the following review and create a structured summary in markdown format.
 
-    **Positives:**
-    - List the positive points using short, engaging sentences
-    - Feel free to use emojis to make it expressive and fun
+        INSTRUCTIONS:
+        1. Start with exactly this phrase: "Here is the summary of the feedback:"
+        2. Follow with two sections using the exact format below
+        3. Use concise, clear bullet points (1-2 sentences max each)
+        4. Only use emojis in section headings, not in bullet points
+        5. If a section has no relevant points, write "None mentioned" under that section
 
-    **Negatives:**
-    - List the negative points in the same style
+        REQUIRED FORMAT:
+        
+        ## **Positives: ✅**
+        - [Clear positive point 1]
+        - [Clear positive point 2]
+        - [Continue as needed]
 
-    Format:
-    - Start each section with a bold heading (**Positives:** and **Negatives:**)
-    - Use dashes (-) or bullet points for each item
-    - Keep the tone human, short, and easy to read
+        ## **Negatives: ❌**
+        - [Clear negative point 1]
+        - [Clear negative point 2]
+        - [Continue as needed]
 
-    Here is the review:
-    ${prompt}`
+        GUIDELINES:
+        - Extract only factual points mentioned in the review
+        - Keep each bullet point concise (10-15 words maximum)
+        - Use professional, objective language
+        - Group similar points together when possible
+        - Focus on specific aspects (quality, service, value, experience, etc.)
+        - Don't interpret or add context not explicitly stated
+        - Maintain neutral tone while clearly categorizing feedback
+
+        Review to analyze:
+        ${prompt}`
     );
     return NextResponse.json({ reply });
   } catch (error) {
