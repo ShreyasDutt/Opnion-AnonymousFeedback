@@ -17,6 +17,8 @@ const page = async () => {
 
   let totalFeedbacks = 0;
   let totalViews = 0;
+
+
   
   spaces.forEach(s => {
     totalFeedbacks += s.feedbacks?.length || 0;

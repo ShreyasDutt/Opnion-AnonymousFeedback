@@ -279,16 +279,18 @@ export const SubmitFeedback = async (spacename: string, message: string) => {
     }
 };
 
-export const DeleteFeedback = async (feedbackId: string) => {
+export const DeleteFeedback = async (feedbackId: string, spaceId: string) => {
     try {
         await dbConnect();
-        await Feedback.findByIdAndDelete(feedbackId);
+        await Promise.all([
+          Feedback.findByIdAndDelete(feedbackId),
+          Space.findByIdAndUpdate(spaceId, { $pull: { feedbacks: feedbackId } })
+        ]);
         revalidatePath('/dashboard');
         return { success: true, message: 'Feedback deleted' };
     } catch (error) {
         console.log(error);
         return { success: false, message: 'Error Deleteing Feedback' };
-
     }
 }
 

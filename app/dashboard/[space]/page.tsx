@@ -62,7 +62,7 @@ const Page = async ({ params }: { params: Promise<{ space: string }> }) => {
             <SettingsModal accepting={AcceptingFlag} spacename={spacename} spaceId={spaceId}/>
           </div>
         </div>
-        {Feedbacks.length>0 ? <FeedbackUi feedbacks={Feedbacks} /> 
+        {Feedbacks.length>0 ? <FeedbackUi feedbacks={Feedbacks} spaceId={spaceId} /> 
         : 
         <div className="flex flex-col items-center justify-center text-center mt-10 text-muted-foreground">
           <MessageCircleOff width={150} height={150} className="mb-4 opacity-70"/>

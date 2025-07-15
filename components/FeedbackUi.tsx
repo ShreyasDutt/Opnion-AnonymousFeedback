@@ -8,7 +8,7 @@ interface Feedback {
   updatedAt: string;
 }
 
-const FeedbackUi = ({ feedbacks }: { feedbacks: Feedback[] }) => {
+const FeedbackUi = ({ feedbacks,spaceId }: { feedbacks: Feedback[],spaceId:string }) => {
   return (
     <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-7 mb-20'>
       {feedbacks.map((feedback) => (
@@ -26,7 +26,7 @@ const FeedbackUi = ({ feedbacks }: { feedbacks: Feedback[] }) => {
                 minute: '2-digit',
               })}
             </p>
-            <FeedbackDeleteButton Id={feedback._id.toString()} />
+            <FeedbackDeleteButton Id={feedback._id.toString()} spaceId={spaceId} />
           </div>
           <div className='mt-2 text-sm text-muted-foreground break-words'>
             {feedback.message}

@@ -2,6 +2,8 @@ import React from 'react';
 import { Pencil } from 'lucide-react';
 import { Button } from './ui/button';
 import Image from 'next/image';
+import ReactMarkdown from 'react-markdown'
+
 
 const Preview = ({Header,SelectedColor,CustomColor,Custommessage,Questions,LogoUrl,Rounded}:{Header:string,CustomColor:string,SelectedColor:string,Custommessage:string,Questions:string[],LogoUrl:string|undefined,Rounded:boolean}) => {
 
@@ -32,7 +34,14 @@ const Preview = ({Header,SelectedColor,CustomColor,Custommessage,Questions,LogoU
         
         {/* Subtitle */}
         <p className="text-center mb-8">
-          {Custommessage?Custommessage : "Your custom message goes here..."}
+          {Custommessage?<ReactMarkdown
+            components={{
+              h2: ({ node, ...props }) => <h2 className="text-lg text-gray-300 my-2 text-start" {...props} />,
+              ul: ({ node, ...props }) => <ul className="list-disc text-gray-300 pl-5 text-start" {...props} />,
+              li: ({ node, ...props }) => <li className="mb-1 text-start" {...props} />,
+              p: ({ node, ...props }) => <p className="mb-1 text-start" {...props} />,
+            }}
+          >{Custommessage}</ReactMarkdown> : "Your custom message goes here..."}
         </p>
         
         {/* Questions section */}

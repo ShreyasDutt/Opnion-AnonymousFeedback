@@ -5,14 +5,11 @@ import { Trash2 } from 'lucide-react'
 import { DeleteFeedback } from '@/app/actions/actions'
 import { toast } from 'sonner'
 
-type FeedbackId = {
-    Id: string;
-}
 
-const FeedbackDeleteButton = ({Id}:FeedbackId) => {
+const FeedbackDeleteButton = ({Id,spaceId}:{Id:string,spaceId:string}) => {
     const handleDelete = async () => {
         try{
-            const res = await DeleteFeedback(Id);
+            const res = await DeleteFeedback(Id, spaceId);
             if(!res.success){
                 toast.error(res.message);
                 return;
