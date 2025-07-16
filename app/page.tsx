@@ -3,12 +3,13 @@ import Image from 'next/image'
 import React from 'react'
 import { FaDotCircle } from 'react-icons/fa'
 import { Button } from '@/components/ui/button'
-import { ArrowRight, ArrowRightIcon, CircleCheck, Laptop, MessageSquareQuote, PenTool, Rocket, Send, Sparkles, User } from 'lucide-react'
+import { ArrowRight, ArrowRightIcon, CircleCheck, Laptop, LayoutDashboard, MessageSquareQuote, PenTool, Rocket, Send, Sparkles, User } from 'lucide-react'
 import { RiOrganizationChart } from 'react-icons/ri'
 import Link from 'next/link'
 import Footer from '@/components/Footer'
 import AutoScrollButton from '@/components/AutoScrollButton'
 import { AuroraText } from '@/components/magicui/aurora-text'
+import { SignedIn, SignedOut } from '@clerk/nextjs'
 
 const page = () => {
   return (
@@ -37,12 +38,23 @@ const page = () => {
             <p className='md:text-left text-center mt-6 text-wrap text-sm md:w-90 md:text-xl lg:w-2xl'>Opinion helps teams, creators, and individuals gather real feedback without fear or filters.</p>
             
               <div className='flex gap-2 mt-5 items-center justify-center'>
-                <Link href='/sign-up'>
-                <Button className='p-5 text-white lg:w-72' effect="expandIcon" icon={ArrowRightIcon} iconPlacement="right">
-                Start for free
-              </Button>
+                <SignedOut>
+                    <Link href='/sign-up'>
+                    <Button className='p-5 text-white lg:w-72' effect="expandIcon" icon={ArrowRightIcon} iconPlacement="right">
+                    Start for free
+                  </Button>
+                    </Link>
+                <AutoScrollButton sectionId='how-it-works'/>
+            </SignedOut>
+            <SignedIn>
+                <Link href='/dashboard'>
+                    <Button className='p-5 text-white lg:w-72' effect="expandIcon" icon={LayoutDashboard} iconPlacement="right">
+                    Go to Dashboard
+                  </Button>
                 </Link>
-            <AutoScrollButton sectionId='how-it-works'/>
+                <AutoScrollButton sectionId='how-it-works'/>
+            </SignedIn>
+               
             </div>
 
           </div>
@@ -192,10 +204,17 @@ const page = () => {
 
    <div className='my-8 lg:h-44 bg-[#5D2DE6] dark:bg-[#4063ff] p-7 rounded-2xl lg:flex lg:items-center lg:justify-center'>
         <div className='flex flex-col lg:flex-row items-center gap-5 justify-center'>
-          <p className='font-bold text-white text-2xl md:text-4xl lg:text-5xl'>Ready to hear the truth?</p>
+          <p className='font-bold text-white text-2xl md:text-4xl lg:text-5xl'>Say it. Anonymously.</p>
+          <SignedOut>
           <Link href={'/sign-up'}>
-          <Button className='bg-white text-black hover:bg-white lg:py-7'>Get Anonymous Feedback<ArrowRight/></Button>
+          <Button className='bg-white text-black hover:bg-white lg:py-5'>Get Anonymous Feedback<ArrowRight/></Button>
           </Link>
+          </SignedOut>
+          <SignedIn>
+          <Link href={'/dashboard'}>
+            <Button className='bg-white text-black hover:bg-white lg:py-5'>Create your first space<ArrowRight/></Button>
+          </Link>
+          </SignedIn>
         </div>
 
       </div>
