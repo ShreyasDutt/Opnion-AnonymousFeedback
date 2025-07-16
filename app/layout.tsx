@@ -15,7 +15,7 @@ export const metadata: Metadata = {
   description: "Say it. Anonymously.",
   openGraph: {
     title: "Opinion",
-    description: "Collect honest, anonymous feedback effortlessly.",
+    description: "Say it. Anonymously.",
     url: "https://send-opinion.vercel.app",
     siteName: "Opinion",
     images: [
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
         url: "https://send-opinion.vercel.app/opengraph-image.png",
         width: 1200,
         height: 630,
-        alt: "Opinion : Anonymous Feedback App",
+        alt: "Opinion : Anonymous Feedbacks",
       },
     ],
     type: "website",
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Opinion",
-    description: "Collect honest, anonymous feedback effortlessly.",
+    description: "Say it. Anonymously.",
     images: ["https://send-opinion.vercel.app/opengraph-image.png"],
   },
 };

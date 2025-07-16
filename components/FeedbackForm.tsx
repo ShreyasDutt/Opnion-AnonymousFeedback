@@ -4,7 +4,6 @@ import {
   ResponsiveModal,
   ResponsiveModalClose,
   ResponsiveModalContent,
-  ResponsiveModalDescription,
   ResponsiveModalFooter,
   ResponsiveModalHeader,
   ResponsiveModalTitle,
@@ -65,8 +64,7 @@ export function FeedbackForm({ color,spacename }: { color: string, spacename: st
 
         <ResponsiveModalContent className="grid place-items-center">
           <ResponsiveModalHeader>
-            <ResponsiveModalTitle>Create a new space</ResponsiveModalTitle>
-            <ResponsiveModalDescription>Submit a Feedback</ResponsiveModalDescription>
+            <ResponsiveModalTitle>Write a Feedback</ResponsiveModalTitle>
           </ResponsiveModalHeader>
 
           <div className="grid gap-4">

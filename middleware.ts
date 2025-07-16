@@ -4,13 +4,7 @@ import { NextResponse } from 'next/server';
 const isPublicRoute = createRouteMatcher(['/sign-in(.*)','/sign-up(.*)','/api/webhooks(.*)','/','/:slug'])
 
 export default clerkMiddleware(async (auth, req) => {
-    const { userId } = await auth();
-    
-if (userId && req.nextUrl.pathname === '/') {
-  const url = req.nextUrl.clone()
-  url.pathname = '/dashboard'
-  return NextResponse.redirect(url)
-}
+
   if (!isPublicRoute(req)) {
     await auth.protect()
   }

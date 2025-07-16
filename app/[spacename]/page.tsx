@@ -3,6 +3,7 @@ import Image from 'next/image'
 import { GetSpaceFeedback } from '../actions/actions'
 import { notFound } from 'next/navigation'
 import { FeedbackForm } from '@/components/FeedbackForm'
+import ReactMarkdown from 'react-markdown'
 
 interface PageProps {
   params: Promise<{
@@ -33,11 +34,22 @@ const page = async({ params }: PageProps) => {
                         height={80} 
                         width={80} 
                         alt='' 
-                        className={`${space?.rounded ? 'rounded-full' : 'rounded-lg'} border-2 shadow-lg`}
+                        className={`${space?.rounded ? 'rounded-full' : 'rounded-lg'} border-4 shadow-lg`}
                         style={{ borderColor: Color }}
                     />
                     <p className='lg:text-6xl text-4xl font-bold mt-5 mb-2 text-center'>{space?.title}</p>
-                    <p className='text-sm text-gray-500 dark:text-gray-400 text-center max-w-2xl'>{space?.message}</p>
+                    <div className="text-start">
+                    <ReactMarkdown
+                        components={{
+                        h2: ({...props }) => <h2 className="text-lg my-2" {...props} />,
+                        ul: ({...props }) => <ul className="list-disc pl-5" {...props} />,
+                        li: ({...props }) => <li className="mb-1" {...props} />,
+                        p: ({...props }) => <p className="mb-1" {...props} />,
+                        }}
+                    >
+                        {space?.message}
+                    </ReactMarkdown>
+                    </div>
                 </div>
                 
                 {/* Questions Section */}
