@@ -38,15 +38,8 @@ const page = async({ params }: PageProps) => {
                         style={{ borderColor: Color }}
                     />
                     <p className='lg:text-6xl text-4xl font-bold mt-5 mb-2 text-center'>{space?.title}</p>
-                    <div className="text-start">
-                    <ReactMarkdown
-                        components={{
-                        h2: ({...props }) => <h2 className="text-lg my-2" {...props} />,
-                        ul: ({...props }) => <ul className="list-disc pl-5" {...props} />,
-                        li: ({...props }) => <li className="mb-1" {...props} />,
-                        p: ({...props }) => <p className="mb-1" {...props} />,
-                        }}
-                    >
+                    <div className="prose dark:prose-invert prose-neutral prose-h1:text-2xl md:prose-h1:text-4xl">
+                    <ReactMarkdown>
                         {space?.message}
                     </ReactMarkdown>
                     </div>
@@ -54,10 +47,14 @@ const page = async({ params }: PageProps) => {
                 
                 {/* Questions Section */}
                 <div className='px-6 pb-8'>
+                    {space?.questions.length === 0 ? '': 
+                    <div>
                     <div className='flex flex-col gap-2 mb-6'>
                         <p className='text-2xl font-bold'>Questions</p>
                         <p className={`w-16 h-1 rounded-full`} style={{ backgroundColor: Color }}></p>
                     </div>
+                    </div>}
+                   
 
                     <div className='space-y-4 mb-8'>
                         {space?.questions.map((question, index) => (

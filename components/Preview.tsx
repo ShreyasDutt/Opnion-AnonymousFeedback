@@ -33,16 +33,9 @@ const Preview = ({Header,SelectedColor,CustomColor,Custommessage,Questions,LogoU
         </h1>
         
         {/* Subtitle */}
-        <p className="text-start mb-8">
-          {Custommessage?<ReactMarkdown
-            components={{
-              h2: ({...props }) => <h2 className="text-lg my-2" {...props} />,
-              ul: ({...props }) => <ul className="list-disc pl-5" {...props} />,
-              li: ({...props }) => <li className="mb-1" {...props} />,
-              p: ({...props }) => <p className="mb-1" {...props} />,
-            }}
-          >{Custommessage}</ReactMarkdown> : "Your custom message goes here..."}
-        </p>
+        <div className="prose dark:prose-invert prose-neutral prose-h1:text-2xl md:prose-h1:text-4xl">
+          {Custommessage?<ReactMarkdown>{Custommessage}</ReactMarkdown> : "Your custom message goes here..."}
+        </div>
         
         {/* Questions section */}
         <div>
@@ -65,7 +58,7 @@ const Preview = ({Header,SelectedColor,CustomColor,Custommessage,Questions,LogoU
         
         {/* Buttons */}
 <Button
-  className="w-full mb-2 text-white"
+  className="w-full mb-2 mt-5 text-white"
   style={{backgroundColor:Color}}
 >
   <Pencil size={20} />
