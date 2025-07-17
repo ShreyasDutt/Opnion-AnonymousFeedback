@@ -1,11 +1,4 @@
-# 📋 TODO for tomorrow
 
-* [ ] Ui fixes on AI Modal
-* [ ] Overall ui fixes
-* [ ] start working on embed widget
-
-
----
 
 # 🗣️ Opinion – Anonymous Feedback App
 
