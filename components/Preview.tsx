@@ -33,7 +33,7 @@ const Preview = ({Header,SelectedColor,CustomColor,Custommessage,Questions,LogoU
         </h1>
         
         {/* Subtitle */}
-        <div className="prose dark:prose-invert prose-neutral prose-h1:text-2xl md:prose-h1:text-4xl">
+        <div className="prose dark:prose-invert prose-neutral prose-h1:text-2xl md:prose-h1:text-4xl m-3">
           {Custommessage?<ReactMarkdown>{Custommessage}</ReactMarkdown> : "Your custom message goes here..."}
         </div>
         

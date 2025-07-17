@@ -38,7 +38,7 @@ const page = async({ params }: PageProps) => {
                         style={{ borderColor: Color }}
                     />
                     <p className='lg:text-6xl text-4xl font-bold mt-5 mb-2 text-center'>{space?.title}</p>
-                    <div className="prose dark:prose-invert prose-neutral prose-h1:text-2xl md:prose-h1:text-4xl">
+                    <div className="prose dark:prose-invert prose-neutral prose-h1:text-2xl md:prose-h1:text-4xl m-3">
                     <ReactMarkdown>
                         {space?.message}
                     </ReactMarkdown>
