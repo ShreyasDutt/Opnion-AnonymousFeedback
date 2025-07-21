@@ -7,12 +7,10 @@ Opinion is a minimal web app that allows users to collect honest, anonymous feed
 ## 🚀 Features
 
 * Create customizable feedback "spaces"
-* Upload logos, customize colors & shape (circle/square)
+* Upload logos, customize spaces
 * Ask custom questions
 * Share space links to collect anonymous responses
-* Edit your space anytime
 * Dashboard with views, feedback count, and conversion stats
-* Built-in image uploading (Cloudinary)
 
 ## 🛠️ Stack
 
