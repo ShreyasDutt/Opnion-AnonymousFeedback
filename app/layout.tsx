@@ -49,7 +49,7 @@ export default function RootLayout({
       unsafe_disableDevelopmentModeWarnings: true
       },
       baseTheme: dark,
-      variables: { colorPrimary: '#FF3E61'},
+      variables: { colorPrimary: '#3e61ff'},
       }}      
       >
         <body className={`${manrope.className} antialiased scroll-smooth`}>
