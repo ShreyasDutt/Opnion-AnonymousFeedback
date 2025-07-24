@@ -45,7 +45,10 @@ export default function RootLayout({
       <html lang="en" suppressHydrationWarning>
       <ClerkProvider
       appearance={{
-        baseTheme: dark,
+      layout: {
+      unsafe_disableDevelopmentModeWarnings: true
+      },
+      baseTheme: dark,
       }}      
       >
         <body className={`${manrope.className} antialiased scroll-smooth`}>
